@@ -32,11 +32,14 @@ Let us go through each part, one by one.
 <!DOCTYPE html>
 ```
 
-This line goes at the very top — above everything else. It is **not** an HTML element. It is a declaration. It tells the browser: *"I am writing modern HTML5. Please render this page in standards mode."*
+This line goes at the very top — above everything else. It is **not** an HTML element. It is a declaration. It tells the browser: *"I am writing modern `HTML5`. Please render this page in standards mode."*
 
-Without it, the browser enters something called "quirks mode" — a backwards-compatibility mode where it guesses at your intentions. Quirks mode causes unpredictable layout bugs that will drive you absolutely mad. Always include `<!DOCTYPE html>`.
+Without it, the browser enters something called "quirks mode" — a backwards-compatibility mode where it guesses at your intentions. Always include `<!DOCTYPE html>`.
 
-It is not case-sensitive (`<!doctype html>` also works), but the capitalised version is the convention.
+
+> Trust me—tracking down quirks mode bugs is not how you want to spend your afternoon.
+
+It is not case-sensitive (`<!doctype html>` also works), but the capitalized version is the convention.
 
 ---
 
@@ -50,7 +53,7 @@ It is not case-sensitive (`<!doctype html>` also works), but the capitalised ver
 
 Everything else on the page lives inside `<html>`. It is the root — the ancestor of all other elements.
 
-The `lang` attribute is important. It tells the browser (and screen readers, and search engines) what human language the page is written in.
+The `lang` attribute is important. It tells the browser, screen readers and search engines,  what human language the page is written in.
 
 ```html
 <html lang="en">       <!-- English -->
@@ -83,8 +86,10 @@ Common things that go in `<head>`:
 - Links to JavaScript files
 - SEO meta tags
 - The favicon (the tiny icon in the browser tab)
-
-Nothing in `<head>` is rendered on the page itself. We cover this in detail in [Module 03](03-metadata.md).
+  
+> **Note:**
+> -  There can only be **one** `<head>` element per page.
+> - Content inside `<head>` is generally not displayed as part of the page's main content. We cover this in detail in [Module 03](03-metadata.md).
 
 ---
 
@@ -99,7 +104,9 @@ Nothing in `<head>` is rendered on the page itself. We cover this in detail in [
 
 The `<body>` contains all the visible content — headings, paragraphs, images, links, forms, everything. If a user can see or interact with something, it lives in `<body>`.
 
-There can only be **one** `<body>` element per page.
+> **Note:**
+> There can only be **one** `<body>` element per page.
+> The `<h1>` element creates a main heading, while the `<p>` element creates a paragraph.
 
 ---
 
@@ -123,15 +130,16 @@ Think of the HTML document as a family tree. The relationships have names:
 - `<html>` is an **ancestor** of `<strong>`
 - `<strong>` is a **descendant** of `<html>`
 
-You will hear these terms constantly in HTML and CSS. Understanding them now will save you confusion later.
+You will hear these terms constantly in HTML and CSS. Understanding them now will save you confusion later. 
 
 ---
 
 ## Block vs Inline Elements
 
-Every HTML element displays in one of two fundamental ways:
+Traditionally, HTML elements are classified as either **block-level** or **inline** elements. While CSS can change how elements are displayed, these categories are still useful for understanding document structure.
 
 **Block elements** start on a new line and take up the full width available:
+
 ```html
 <h1>I am a block element — I take a full line.</h1>
 <p>So do I. New paragraph, new line.</p>
@@ -139,6 +147,7 @@ Every HTML element displays in one of two fundamental ways:
 ```
 
 **Inline elements** flow with the text around them:
+
 ```html
 <p>
   I am normal text with <strong>bold words</strong>
@@ -146,15 +155,19 @@ Every HTML element displays in one of two fundamental ways:
 </p>
 ```
 
-Key rule: **Block elements should not go inside inline elements.**
+As a general rule, **Block elements should not go inside inline elements.**
 
 ```html
-<!-- ❌ Wrong — block inside inline -->
+<!-- ❌ Invalid HTML -->
 <span><p>Bad idea.</p></span>
 
 <!-- ✅ Right — inline inside block -->
 <p><span>This is fine.</span></p>
 ```
+
+> **Note:** 
+> CSS can change how an element is displayed, but its HTML meaning remains the same. 
+> These tags are explained in more detail in later topics, so don't worry if they seem unfamiliar right now. Keep them in mind and revisit this section after learning about them—you'll understand the concepts much better.
 
 ---
 
@@ -164,22 +177,48 @@ Browsers are very forgiving. They will try to render even broken HTML. But "it w
 
 The official HTML validator is at [validator.w3.org](https://validator.w3.org). Paste your HTML in and it will tell you exactly what is wrong.
 
+### Example
+
+The browser may still display this page:
+
+```html
+<p>Welcome to <strong>my website</p></strong>
+```
+
+However, the HTML is invalid because the tags are not properly nested. A validator will report the error and help you fix it.
+
+Correct version:
+
+```html
+<p>Welcome to <strong>my website</strong></p>
+```
 ---
 
 ## Quick Reference
 
-| Element | What it does |
-|---------|-------------|
-| `<!DOCTYPE html>` | Tells browser to use HTML5 standards mode |
-| `<html lang="en">` | Root of the entire document; declares language |
-| `<head>` | Container for metadata (invisible to reader) |
-| `<body>` | Container for all visible page content |
-| `<meta charset="UTF-8">` | Declares character encoding (go in head) |
-| `<title>` | Sets the browser tab title (goes in head) |
+| Element                  | What it does                                   |
+| ------------------------ | ---------------------------------------------- |
+| `<!DOCTYPE html>`        | Tells browser to use HTML5 standards mode      |
+| `<html lang="en">`       | Root of the entire document; declares language |
+| `<head>`                 | Container for metadata (invisible to reader)   |
+| `<body>`                 | Container for all visible page content         |
+| `<meta charset="UTF-8">` | Declares character encoding (go in head)       |
+| `<title>`                | Sets the browser tab title (goes in head)      |
+
+**Memory trick:**
+```
+html
+├── head
+│   ├── meta
+│   └── title
+└── body
+    ├── h1
+    └── p
+```
 
 ---
 
-## 🧪 Exercises
+## Exercises
 
 **Exercise 1 — True or False**
 
