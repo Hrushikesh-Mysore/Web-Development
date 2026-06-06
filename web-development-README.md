@@ -1,4 +1,4 @@
-# 🌐 Web Development
+# Web Development
 
 > A complete beginner-to-intermediate reference for the three core languages of the web.
 > Plain English. Real code. Built on MDN, javascript.info, and nothing else.
