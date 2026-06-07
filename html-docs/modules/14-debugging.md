@@ -8,7 +8,7 @@
 
 Unlike JavaScript, HTML never throws a visible error. The browser always tries to render *something*, even from broken markup. That can feel reassuring — but it is actually dangerous. Your page can look fine in one browser and be completely mangled in another, because each browser handles broken HTML differently.
 
-The solution is to write valid HTML, know how to spot problems, and use the right tools to catch mistakes before they reach users.
+The solution is to write valid HTML, learn to spot problems, and use tools that catch mistakes before they reach users.
 
 ---
 
@@ -18,7 +18,7 @@ Every browser ships with DevTools. Open them with `F12` or `Ctrl+Shift+I` (Windo
 
 ### The Elements Panel
 
-The Elements panel shows the **live DOM** — the browser's interpreted version of your HTML, not your source file. This is crucial to understand: if your HTML has errors, the browser corrects them silently, and the Elements panel shows the corrected version.
+The Elements panel shows the **live DOM** — the browser's interpreted version of your HTML, not your source file. This is crucial to understand: if your HTML has errors, the browser corrects them silently, and the Elements panel shows the corrected version. Different browsers may correct invalid HTML differently, which is why invalid markup can create inconsistent layouts.
 
 ```
 What you wrote:          What the browser shows in DevTools:
@@ -43,9 +43,9 @@ Right-click any element on the page → "Inspect". DevTools opens and highlights
 
 ## The HTML Validator
 
-The most thorough way to check your HTML is the **W3C Validator**:
+The most reliable automated way to verify your HTML is the W3C Validator:
 
-🔗 [validator.w3.org](https://validator.w3.org)
+**validate at** <https://validator.w3.org>
 
 You can validate by:
 - **URL** — paste your live site URL
@@ -61,6 +61,9 @@ It outputs a list of errors and warnings with line numbers. Work through them to
 - Incorrect nesting
 - Duplicate `id` attributes
 - Missing `<!DOCTYPE html>`
+
+> [!tip]
+> Fix all errors first. Then review warnings and decide whether they apply to your document.
 
 ---
 
@@ -115,7 +118,7 @@ It outputs a list of errors and warnings with line numbers. Work through them to
 
 IDs must be unique. Using the same `id` twice breaks anchor links, CSS specificity, and JavaScript `getElementById()`.
 
-### 5. Block Elements Inside Inline Elements
+### 5. Invalid Content Nesting
 
 ```html
 <!-- ❌ Block element inside inline element -->
@@ -129,6 +132,12 @@ IDs must be unique. Using the same `id` twice breaks anchor links, CSS specifici
 </div>
 ```
 
+---
+
+> [!tip]
+> Certain elements cannot legally contain others according to HTML's content model. For example, a `<span>` should not wrap heading elements.
+
+---
 ### 6. Missing `<!DOCTYPE html>`
 
 Without this, browsers enter quirks mode and rendering becomes unpredictable. Always put it on line 1.
@@ -174,8 +183,11 @@ Beyond HTML validity, check accessibility with:
 
 - **axe DevTools** — a free browser extension that audits your page for accessibility issues
 - **WAVE** — [wave.webaim.org](https://wave.webaim.org) — visual accessibility report
-- **Lighthouse** — built into Chrome DevTools → Audits tab → run Accessibility audit
+- **Lighthouse** — available within Chrome DevTools. Open DevTools and look for the Lighthouse panel.
 - **Screen reader** — NVDA (Windows, free), VoiceOver (Mac, built-in), TalkBack (Android)
+
+> [!tip]
+> The Console is mainly used for JavaScript errors, but it can also show warnings related to HTML, accessibility, and resource loading.
 
 ---
 
@@ -196,7 +208,17 @@ Set VS Code to format on save:
 ```
 
 ---
+## Debugging Strategy
 
+When a page breaks:
+
+1. Validate the HTML.
+2. Check DevTools.
+3. Look near the element that appears broken.
+4. Look above that element for an unclosed tag.
+5. Fix one error at a time and retest.
+
+---
 ## Quick Debugging Checklist
 
 Before publishing any HTML page, run through this:
@@ -213,7 +235,7 @@ Before publishing any HTML page, run through this:
 
 ---
 
-## 🧪 Exercises
+## Exercises
 
 **Exercise 1 — Spot the bugs**
 
@@ -237,7 +259,7 @@ Find all the HTML errors in this code:
 <details>
 <summary>Show answer</summary>
 
-Five errors:
+Six errors:
 1. Missing `<!DOCTYPE html>`
 2. Missing `lang` attribute on `<html>`
 3. Unclosed `<h1>` tag

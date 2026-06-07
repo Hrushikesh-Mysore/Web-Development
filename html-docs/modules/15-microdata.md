@@ -12,6 +12,9 @@ When Google crawls your page, it sees words. It can guess what they mean — but
 
 Google, Bing, and other search engines use this information to display **rich results** — those enhanced search snippets with star ratings, prices, event dates, and recipe info that stand out above normal results.
 
+> [!note]
+> Structured data makes content eligible for rich results, but search engines decide whether those results are shown.
+
 ```
 Normal result:
   John Doe — Frontend Developer
@@ -23,6 +26,9 @@ Rich result (with Microdata):
 ```
 
 Same page. More information. More clicks.
+
+> [!warning]
+> Structured data should accurately describe visible page content. Search engines may ignore misleading or deceptive markup.
 
 ---
 
@@ -67,6 +73,8 @@ Each type has a list of properties you can use. You do not have to use all of th
 | `Article` | `https://schema.org/Article` | News or blog articles |
 | `BreadcrumbList` | `https://schema.org/BreadcrumbList` | Navigation breadcrumbs |
 | `WebSite` | `https://schema.org/WebSite` | Site-level information |
+> [!note]
+> The URL acts as an identifier for the type. Browsers do not fetch or execute anything from Schema.org.
 
 ---
 
@@ -220,10 +228,10 @@ Sometimes the machine-readable value you need is different from what you want to
 ```html
 <div itemscope itemtype="https://schema.org/Event">
 
-  <h2 itemprop="name">Bangalore Frontend Meetup — May 2024</h2>
+  <h2 itemprop="name">Annual Frontend Meetup</h2>
 
-  <time itemprop="startDate" datetime="2024-05-18T18:00">
-    18 May 2024, 6:00 PM
+  <time itemprop="startDate" datetime="2026-05-18T18:00">
+    18 May 1016, 6:00 PM
   </time>
 
   <div itemprop="location" itemscope itemtype="https://schema.org/Place">
@@ -301,7 +309,7 @@ In a production project, either approach is valid. JSON-LD is the industry prefe
 
 ---
 
-## 🧪 Exercises
+## Exercises
 
 **Exercise 1 — Decode this markup**
 
@@ -355,6 +363,9 @@ Add the correct Microdata attributes to this product card. The product is a book
   </div>
 </div>
 ```
+> [!note]
+> The `<meta>` elements provide machine-readable values for search engines. They are not displayed on the page, but tools such as Google's Rich Results Test can still read them.
+
 </details>
 
 ---
@@ -383,7 +394,7 @@ Write Microdata for a person named "Arjun Mehta" who is a "Software Engineer" wo
 
 **Exercise 4 — Résumé ready**
 
-Look at the résumé project template in `project/solution/index.html`. Identify three places where you could add Microdata and write the attributes you would use. No need to write the full HTML — just list the elements, their `itemtype`, and the `itemprop` values you would add.
+Look at the résumé project template in `project/index.html`. Identify three places where you could add Microdata and write the attributes you would use. No need to write the full HTML — just list the elements, their `itemtype`, and the `itemprop` values you would add.
 
 <details>
 <summary>Show answer</summary>
@@ -412,7 +423,7 @@ itemprop values: name, description, url
 
 ---
 
-## 🎉 You Have Finished All 15 Modules
+## You Have Finished All 15 Modules
 
 Here is what you now know:
 

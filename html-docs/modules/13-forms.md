@@ -6,7 +6,10 @@
 
 ## Why Forms Matter
 
-Forms are how the web talks back. Every login, search bar, sign-up flow, checkout page, and contact form is built with the HTML elements in this module. Getting them right means users can complete tasks easily. Getting them wrong means lost customers and frustrated people.
+Forms allow users to send data to websites and web applications. Every login form, search bar, sign-up flow, checkout page, and contact form is built using these HTML elements.
+- Well-designed forms help users complete tasks quickly and accurately.  
+- Poorly designed forms can lead to errors, confusion, and abandoned submissions.
+In this module, we will explore the core HTML form elements used to collect user input:
 
 ---
 
@@ -18,11 +21,18 @@ Forms are how the web talks back. Every login, search bar, sign-up flow, checkou
 </form>
 ```
 
-- `action` — the URL the form data is sent to when submitted
-- `method` — how data is sent: `get` (appended to URL) or `post` (sent in request body)
+The `<form>` element defines a form. Most form controls, such as inputs, buttons, and labels, are placed inside it.
+- `action` — specifies where the form data is sent when the form is submitted
+- `method` — specifies how the form data is sent to the server:
+  - `get` — appended to the URL
+  - `post` — sent in the request body
 
-Use `method="get"` for searches (the query appears in the URL, so it is bookmarkable).  
-Use `method="post"` for anything sensitive — logins, registrations, contact forms.
+> [!note]
+> Use `method="get"` for searches (the query appears in the URL, so it is bookmarkable).  
+> 
+> Use `method="post"` when submitting data that changes server state or should not appear in the URL, such as logins, registrations, and contact forms.
+
+
 
 ---
 
@@ -92,6 +102,9 @@ Mobile browsers show the numeric keypad.
 <input type="number" id="age" name="age" min="18" max="120">
 ```
 
+> [!tip]
+> `type="number"` is intended for numeric values that can be incremented or decremented, such as age or quantity. 
+> Phone numbers, PINs, and ZIP codes are usually better represented as text inputs.
 ### `type="search"` — Search field
 
 ```html
@@ -102,7 +115,30 @@ Mobile browsers show the numeric keypad.
 Shows a clear button (×) when text is entered in most browsers.
 
 ---
+### The `name` Attribute
 
+The `name` attribute identifies a form control when the form is submitted. Without a `name`, the control's value is not included in the submitted form data.
+
+```html
+<input type="text" id="username" name="username">
+```
+
+When this form is submitted:
+
+```html
+<input type="text" name="username" value="john">
+```
+
+the browser sends:
+
+```text
+username=john
+```
+
+>[!warning]
+> An input without a `name` attribute is not included in the submitted form data.
+
+---
 ## Dates and Times
 
 ```html
@@ -276,6 +312,8 @@ HTML5 provides native validation without JavaScript:
 <input type="text" pattern="[A-Za-z]{3,}">      <!-- Must match regex -->
 ```
 
+- `pattern` uses a regular expression (regex) to define a required format. This pattern requires at least three alphabetic characters.
+
 Browsers display error messages automatically if validation fails. Style them with the `:invalid` and `:valid` CSS pseudo-classes.
 
 ---
@@ -317,8 +355,32 @@ Browsers display error messages automatically if validation fails. Style them wi
 </form>
 ```
 
----
+> [!tip]
+> When using visual indicators such as `*`, mark them with
+> `aria-hidden="true"` so screen readers do not announce them unnecessarily.
 
+---
+## The `autocomplete` Attribute
+
+The `autocomplete` attribute provides a hint to the browser about the type of information expected in a field. Browsers may use this information to offer autofill suggestions.
+
+```html
+<input type="text" autocomplete="name">
+<input type="email" autocomplete="email">
+<input type="tel" autocomplete="tel">
+```
+
+---
+## Form Best Practices
+
+- Always associate inputs with labels.
+- Use the most appropriate input type.
+- Group related controls with `<fieldset>` and `<legend>`.
+- Validate important data with HTML attributes.
+- Always specify `type` on buttons.
+- Never rely on placeholders as labels.
+
+---
 ## Quick Reference
 
 | Element / Attribute | Purpose |
@@ -341,7 +403,7 @@ Browsers display error messages automatically if validation fails. Style them wi
 
 ---
 
-## 🧪 Exercises
+## Exercises
 
 **Exercise 1 — Label connection**
 
