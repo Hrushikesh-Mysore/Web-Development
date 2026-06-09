@@ -186,7 +186,7 @@ Note the difference between `<s>` and `<del>`:
 
 ---
 
-## 🧪 Exercises
+## Exercises
 
 **Exercise 1 — The right quote element**
 
