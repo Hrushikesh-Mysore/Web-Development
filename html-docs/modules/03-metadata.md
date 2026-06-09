@@ -6,7 +6,8 @@
 
 ## What Lives in `<head>`?
 
-The `<head>` is your page's backstage area. The audience (your user) never sees it directly, but everything that makes the show run smoothly lives here. Bad metadata = broken social previews, missing browser tab title, garbled characters, wrong language for screen readers.
+The `<head>` is your page's backstage area. The audience (your user) never sees it directly, but everything that makes the show run smoothly lives here. 
+==Bad metadata = broken social previews==, missing browser tab title, garbled characters, wrong language for screen readers.
 
 Let us go through each element you will actually use.
 
