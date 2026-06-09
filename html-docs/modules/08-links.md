@@ -200,7 +200,7 @@ In older HTML you could only put inline content inside `<a>`. HTML5 allows block
 
 ---
 
-## 🧪 Exercises
+## Exercises
 
 **Exercise 1 — Write the links**
 
