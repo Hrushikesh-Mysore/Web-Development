@@ -11,9 +11,9 @@ Here is the trap beginners fall into: they use HTML elements to control *how thi
 `<b>` makes text **bold**. `<strong>` makes text **important** — and the browser *also* makes it bold as a visual hint.
 
 The difference matters because:
-- A screen reader will announce `<strong>` text with emphasis in its voice
-- Search engines weight `<strong>` content more than surrounding text
-- CSS can restyle `<b>` and `<strong>` differently if needed
+- Screen readers announce `<strong>` with stronger emphasis.
+- CSS can style `<b>` and `<strong>` differently.
+- Semantic HTML helps describe the meaning of content.
 
 **Use semantic elements. Let CSS handle the visuals.**
 
@@ -60,12 +60,11 @@ Browsers render it italic by default. Screen readers adjust their tone.
 
 ```html
 <p>
-  The <b>quick brown fox</b> jumps over the lazy dog.
-  This sentence is used for font testing.
+  Search results for: <b>learn HTML</b>
 </p>
 
 <p>
-  Search results for: <b>learn HTML</b>
+  Keywords: <b>HTML</b>, <b>CSS</b>, and <b>JavaScript</b>
 </p>
 ```
 
@@ -91,7 +90,11 @@ Use `<i>` for:
 - Inner thoughts in narrative writing
 - Titles of films, books, ships (though `<cite>` is more specific for that)
 
-Looks italic, but carries no stress emphasis.
+Browsers render it italic by default, but unlike `<em>`, it does not indicate stress emphasis.
+
+> [!Note]
+> `<i>` is often misunderstood. It does not mean "make this italic". It represents text that is different from the surrounding text, such as foreign words, thoughts, or technical terms.
+> HTML also provides `<cite>` for titles of books, films, and other works. We will cover it later.
 
 ---
 
@@ -125,7 +128,6 @@ Browsers render it with a yellow background by default.
 Use `<small>` for legal disclaimers, copyright notices, and fine print — text that is less prominent, not just smaller.
 
 ---
-
 ## `<del>` and `<ins>` — Deleted and Inserted Text
 
 ```html
@@ -201,23 +203,23 @@ This code uses `<b>` and `<i>` for everything. Rewrite it with the correct seman
 
 ```html
 <p>
-  <b>Warning:</b> Do not use this chemical near <b>open flames</b>.
+  <b>Warning:</b> Keep this chemical away from <b>open flames</b>.
   The technical name is <i>dihydrogen monoxide</i>.
 </p>
 ```
-
-<details>
-<summary>Show answer</summary>
 
 ```html
 <p>
-  <strong>Warning:</strong> Do not use this chemical near <strong>open flames</strong>.
+  <strong>Warning:</strong> Keep this chemical away from <strong>open flames</strong>.
   The technical name is <i>dihydrogen monoxide</i>.
 </p>
 ```
 
-"Warning" and "open flames" are genuine safety warnings — they need `<strong>`. The technical name is a foreign/technical term — `<i>` is correct there.
-</details>
+"Warning" and "open flames" are genuine safety warnings, so they should use `<strong>`.
+
+The technical name _dihydrogen monoxide_ is a scientific term on first use, so `<i>` is appropriate.
+
+The goal is to choose elements based on meaning, not appearance.
 
 ---
 
@@ -248,5 +250,30 @@ Show that a product's price changed from ₹2,500 to ₹1,800, using the correct
 </details>
 
 ---
+
+## Exercise 5 — Which tag is wrong?
+
+```html
+<p>  
+  <strong>Warning:</strong>  
+  Do not drink H<sub>2</sub>SO<sub>4</sub>.  
+  Search term: <mark>sulfuric acid</mark>.  
+  Invented by <i>Antoine Lavoisier</i>.  
+</p>
+```
+
+<details>
+<summary>Show answer</summary>
+
+The <i> tag is incorrect.<i> is used for foreign words, technical terms, thoughts, and similar text that differs from its surroundings. 
+A person's name is none of these, so Antoine Lavoisier should be plain text.
+The other tags are correct:- 
+- `<strong>` for the warning.
+- `<sub>` for the chemical formula.
+- `<mark>` for highlighted text.
+
+</details>
+
+
 
 > **Next:** [Module 06 — Lists →](06-lists.md)
