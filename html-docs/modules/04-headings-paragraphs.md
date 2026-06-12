@@ -36,7 +36,20 @@ The browser renders them in decreasing size by default:
 | `<h5>` | Small, bold |
 | `<h6>` | Smaller, bold |
 
-(You will style these with CSS later — the default sizes are just the browser's guess at what looks reasonable.)
+> [!Note]
+> You will style these with CSS later — the default sizes are just the browser's guess at what looks reasonable.
+> Although headings look different by default, we use them to describe the structure of the page. This helps screen readers and search engines understand the content.
+
+
+---
+## Semantic Meaning vs Appearance
+
+Headings describe the structure of the document.
+
+CSS controls how things look.
+
+Do not choose heading levels because of their size.
+Choose them because of their importance.
 
 ---
 
@@ -45,23 +58,28 @@ The browser renders them in decreasing size by default:
 Think of headings like a book's table of contents:
 
 ```html
-<h1>The Complete Guide to Cooking</h1>       <!-- Book title — one per page -->
+<h1>The Complete Guide to Programming</h1>
 
-  <h2>Chapter 1: Breakfasts</h2>              <!-- Chapter -->
-    <h3>Eggs</h3>                              <!-- Section -->
-      <h4>Scrambled Eggs</h4>                  <!-- Sub-section -->
-      <h4>Fried Eggs</h4>
-    <h3>Toast</h3>
+<h2>Frontend Development</h2>
+  <h3>HTML</h3>
+    <h4>Headings and Paragraphs</h4>
+    <h4>Links and Images</h4>
 
-  <h2>Chapter 2: Lunches</h2>
-    <h3>Sandwiches</h3>
+  <h3>CSS</h3>
+
+<h2>Backend Development</h2>
+  <h3>Databases</h3>
+  <h3>APIs</h3>
 ```
 
 **The golden rules:**
 
-1. **One `<h1>` per page.** It is the main title. Think of it like the title of a book — there is only one.
-2. **Do not skip levels.** Do not jump from `<h2>` to `<h4>`. Screen readers navigate by heading level and skipping levels confuses them.
+1. **Most pages should have one `<h1>` element.** Think of it like the title of a book — most pages have only one main title.
+2.  **Try to maintain a logical heading hierarchy and avoid unnecessary jumps.** For example, avoid jumping from `<h2>` directly to `<h4>`. Heading levels help screen readers understand the structure of the page.
 3. **Use headings for structure, not for size.** If you want big text, use CSS. Do not use `<h3>` just because you want medium-sized text.
+
+> [!Note]  
+> Notice the indentation in the example. The spaces do **not** create the hierarchy — the heading tags themselves do. However, good indentation makes the structure easier for humans to read and maintain, so it is considered good practice.
 
 ---
 
@@ -121,7 +139,7 @@ Do not use `<br>` to add vertical space between content. That is CSS's job.
 
 ## Horizontal Rule — `<hr>`
 
-`<hr>` creates a thematic break — a visual divider between sections of content.
+`<hr>` creates a thematic break — a visual divider between sections of content. It marks a change of topic or section.
 
 ```html
 <p>This section covers the theory.</p>
@@ -182,22 +200,22 @@ The `<hr>` is semantic — it means "the topic changes here". CSS will control h
 
 ## Quick Reference
 
-| Element | Use it for |
-|---------|-----------|
-| `<h1>` | Page title — one per page |
-| `<h2>` | Major sections |
-| `<h3>` | Sub-sections |
-| `<h4>`–`<h6>` | Deeper sub-sections (use sparingly) |
-| `<p>` | Paragraphs of text |
-| `<br>` | Line breaks within content (addresses, poems) |
-| `<hr>` | Thematic break between sections |
+| Element       | Use it for                                    |
+| ------------- | --------------------------------------------- |
+| `<h1>`        | Main page title                               |
+| `<h2>`        | Major sections                                |
+| `<h3>`        | Sub-sections                                  |
+| `<h4>`–`<h6>` | Deeper sub-sections (use sparingly)           |
+| `<p>`         | Paragraphs of text                            |
+| `<br>`        | Line breaks within content (addresses, poems) |
+| `<hr>`        | Thematic break between sections               |
 
 ---
 
-## 🧪 Exercises
+## Exercises
 
 **Exercise 1 — The hierarchy mistake**
-
+	
 What is wrong with this structure?
 
 ```html
@@ -209,7 +227,7 @@ What is wrong with this structure?
 <details>
 <summary>Show answer</summary>
 
-The heading level jumps from `<h1>` directly to `<h4>`, skipping `<h2>` and `<h3>`. This breaks the semantic hierarchy and confuses screen readers. "About Me" should be an `<h2>` since it is a top-level section of the page.
+The heading level jumps from <h1> directly to <h4>, creating an unnecessary gap in the hierarchy. "About Me" should be an <h2> because it is a major section of the page.
 
 Fixed:
 ```html
@@ -221,28 +239,7 @@ Fixed:
 
 ---
 
-**Exercise 2 — Structure a recipe**
-
-Create a proper heading and paragraph structure for a recipe page. The recipe is "Mango Lassi". It has two sections: "Ingredients" and "Method". Each section should have a short one-sentence description paragraph.
-
-<details>
-<summary>Show answer</summary>
-
-```html
-<h1>Mango Lassi</h1>
-<p>A refreshing Indian yoghurt-based drink, perfect for hot afternoons.</p>
-
-<h2>Ingredients</h2>
-<p>You will need ripe mangoes, yoghurt, milk, sugar, and cardamom.</p>
-
-<h2>Method</h2>
-<p>Blend everything together until smooth and serve chilled.</p>
-```
-</details>
-
----
-
-**Exercise 3 — When to use `<br>`**
+**Exercise 2 — When to use `<br>`**
 
 Should you use `<br>` here, or something else?
 
@@ -256,7 +253,7 @@ Use two separate `<p>` elements, not `<br>`. `<br>` is only for line breaks that
 
 ---
 
-**Exercise 4 — Write the structure**
+**Exercise 3 — Creating the structure**
 
 Look at this content and write the correct heading and paragraph HTML for it:
 
@@ -277,11 +274,45 @@ Look at this content and write the correct heading and paragraph HTML for it:
 <h2>Why Learn Python?</h2>
 <p>Python is one of the most in-demand languages in the world, used in web development, data science, and automation.</p>
 
-  <h3>Python in Web Development</h3>
-  <p>Frameworks like Django and Flask allow developers to build powerful web applications with Python.</p>
+<h3>Python in Web Development</h3>
+<p>Frameworks like Django and Flask allow developers to build powerful web applications with Python.</p>
 ```
 </details>
 
 ---
 
+## Exercise 4 — Build the hierarchy
+
+Look at the outline below and write the correct HTML heading structure.
+
+```
+Travel Blog
+│
+├── Asia
+│   ├── Japan
+│   └── India
+│
+└── Europe
+    ├── France
+    └── Italy
+```
+
+Use only heading elements (`<h1>`–`<h3>`). Do not use paragraphs.
+
+<details> <summary>Show answer</summary>
+
+```html
+<h1>Travel Blog</h1>
+
+<h2>Asia</h2>
+  <h3>Japan</h3>
+  <h3>India</h3>
+
+<h2>Europe</h2>
+  <h3>France</h3>
+  <h3>Italy</h3>
+	
+```
+
+</details>
 > **Next:** [Module 05 — Emphasis & Importance →](05-emphasis-importance.md)
