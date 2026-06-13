@@ -1,4 +1,4 @@
-# 🌐 Learn HTML — From Zero to Resume
+# Learn HTML — From Zero to Resume
 
 > **Plain English. Real code. No fluff. Built on the official MDN Core Learning Path.**
 
