@@ -2,8 +2,6 @@
 
 > **Previous:** [← Module 03 — Operators & Comparisons](03-operators.md) | **Next:** [Module 05 — Loops →](05-loops.md)
 
-**Sources:** [javascript.info — if/else](https://javascript.info/ifelse) · [javascript.info — switch](https://javascript.info/switch) · [MDN — Making decisions in your code](https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Scripting/Conditionals)
-
 ---
 
 ## `if`, `else if`, `else`
