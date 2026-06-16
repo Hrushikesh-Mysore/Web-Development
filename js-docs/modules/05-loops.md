@@ -2,8 +2,6 @@
 
 > **Previous:** [← Module 04 — Control Flow](04-control-flow.md) | **Next:** [Module 06 — Functions →](06-functions.md)
 
-**Sources:** [javascript.info — Loops](https://javascript.info/while-for) · [MDN — Looping code](https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Scripting/Loops)
-
 ---
 
 ## Why Loops?

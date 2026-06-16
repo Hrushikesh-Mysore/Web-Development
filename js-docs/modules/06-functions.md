@@ -2,8 +2,6 @@
 
 > **Previous:** [← Module 05 — Loops](05-loops.md) | **Next:** [Module 07 — Objects →](07-objects.md)
 
-**Sources:** [javascript.info — Functions](https://javascript.info/function-basics) · [javascript.info — Function expressions](https://javascript.info/function-expressions) · [javascript.info — Arrow functions](https://javascript.info/arrow-functions-basics) · [MDN — Functions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions)
-
 ---
 
 ## What is a Function?
