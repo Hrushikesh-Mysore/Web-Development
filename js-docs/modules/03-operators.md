@@ -2,8 +2,6 @@
 
 > **Previous:** [← Module 02 — Variables & Data Types](02-variables-types.md) | **Next:** [Module 04 — Control Flow →](04-control-flow.md)
 
-**Sources:** [javascript.info — Operators](https://javascript.info/operators) · [javascript.info — Comparisons](https://javascript.info/comparison) · [javascript.info — Logical operators](https://javascript.info/logical-operators)
-
 ---
 
 ## Arithmetic Operators

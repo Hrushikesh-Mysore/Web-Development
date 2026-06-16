@@ -2,8 +2,6 @@
 
 > **Previous:** [← Module 01 — What is JavaScript?](01-what-is-js.md) | **Next:** [Module 03 — Operators & Comparisons →](03-operators.md)
 
-**Sources:** [javascript.info — Variables](https://javascript.info/variables) · [javascript.info — Data types](https://javascript.info/types) · [MDN — Storing the information you need](https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Scripting/Variables)
-
 ---
 
 ## Variables — Named Boxes for Data
