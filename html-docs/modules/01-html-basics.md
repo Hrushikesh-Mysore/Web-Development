@@ -16,7 +16,7 @@ To sum up, HTML is a markup language used to describe the structure and meaning 
 
 ---
 
-## Anatomy of an HTML Element
+## Anatomy of an HTML Element 
 
 An HTML element is a piece of a web page defined by HTML tags.
 
