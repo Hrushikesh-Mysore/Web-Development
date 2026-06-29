@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weather Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="app">
+
+    <header class="header">
+      <h1 class="header__title">🌤️ Weather Dashboard</h1>
+      <p class="header__subtitle">Enter any city to get the current forecast</p>
+    </header>
+
+    <main class="main">
+
+      <!-- Search -->
+      <section class="search">
+        <div class="search__row">
+          <input
+            type="text"
+            id="search-input"
+            class="search__input"
+            placeholder="e.g. Bangalore, London, Tokyo…"
+            autocomplete="off"
+            aria-label="City name"
+          >
+          <button id="search-btn" class="search__btn">Search</button>
+        </div>
+      </section>
+
+      <!-- States -->
+      <p id="loading" class="state state--loading" hidden>
+        <span class="spinner" aria-hidden="true"></span>
+        Loading weather data…
+      </p>
+      <p id="error" class="state state--error" hidden role="alert"></p>
+
+      <!-- Weather output -->
+      <section id="weather" class="weather" hidden aria-live="polite">
+
+        <div id="current-weather" class="current">
+          <!-- Rendered by JS -->
+        </div>
+
+        <h2 class="forecast__heading">7-Day Forecast</h2>
+        <div id="forecast-grid" class="forecast">
+          <!-- Cards rendered by JS -->
+        </div>
+
+      </section>
+
+    </main>
+
+    <footer class="footer">
+      <p>Weather data from <a href="https://open-meteo.com" target="_blank" rel="noopener noreferrer">Open-Meteo</a> — free &amp; no API key required.</p>
+    </footer>
+
+  </div>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
