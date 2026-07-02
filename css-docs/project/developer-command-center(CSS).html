@@ -1,0 +1,2556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Developer Command Center – A pure HTML5 showcase dashboard built by a BCA student at NIE Mysore, demonstrating semantic markup, forms, multimedia, and native browser features.">
+  <meta name="author" content="Your Name">
+  <meta name="keywords" content="HTML5, developer, dashboard, computer science, semantic markup">
+  <title>Developer Command Center</title>
+
+  <!-- ============================================================
+       DEVELOPER COMMAND CENTER
+       Core content: pure HTML5 — zero JavaScript.
+       The <style> block below (~89 lines) exists solely for
+       reading comfort (dark/light theme). Every feature —
+       accordions, form validation, progress bars, multimedia —
+       is native HTML with no scripting whatsoever.
+       ============================================================ -->
+
+  <style>
+    /* ================================================================
+       THEME PREFERENCE
+       This is the ONLY CSS in this project (~89 lines total).
+       It controls colour tokens and basic readability only.
+       Zero JavaScript is used anywhere in this file.
+       Dark mode is toggled via the checkbox at the top of the page.
+       ================================================================ */
+
+    /* ── Light mode tokens (default) ── */
+    :root {
+      --bg:      #f4f5f7;
+      --surface: #ffffff;
+      --text:    #1a1a2e;
+      --muted:   #5a5a7a;
+      --border:  #c8c8d8;
+      --accent:  #1a3c6e;
+      --code-bg: #eef0f3;
+      --mark-bg: #fff59d;
+      --th-bg:   #e8eaf0;
+    }
+
+    /* ── Dark mode tokens — triggered by checkbox via :has() ── */
+    html:has(#theme-toggle:checked) {
+      --bg:      #0f0f1a;
+      --surface: #16162a;
+      --text:    #e4e4f4;
+      --muted:   #8888aa;
+      --border:  #2c2c50;
+      --accent:  #7eaaff;
+      --code-bg: #1c1c30;
+      --mark-bg: #3a3a10;
+      --th-bg:   #1e1e38;
+    }
+
+    /* ── Base ── */
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      background-color: var(--bg);
+      color:            var(--text);
+      font-family:      system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+      font-size:        1rem;
+      line-height:      1.75;
+      max-width:        1280px;
+      margin:           0 auto;
+      padding:          1rem 2rem;
+      transition:       background-color 0.3s ease, color 0.3s ease;
+    }
+
+    /* ── Typography ── */
+    h1, h2, h3, h4 { line-height: 1.3; color: var(--text); }
+    a              { color: var(--accent); }
+    abbr           { cursor: help; text-decoration: underline dotted; }
+    mark           { background: var(--mark-bg); padding: 0 2px; border-radius: 2px; }
+    blockquote     { border-left: 4px solid var(--accent); margin-left: 0; padding-left: 1.5rem; color: var(--muted); }
+    hr             { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
+    details        { border: 1px solid var(--border); border-radius: 6px; padding: 0.5rem 1rem; margin: 0.5rem 0; }
+    summary        { cursor: pointer; font-weight: bold; padding: 0.25rem 0; }
+
+    /* ── Code ── */
+    code, kbd, samp, var { background: var(--code-bg); padding: 0.1em 0.35em; border-radius: 3px; font-family: 'Cascadia Code', 'Fira Code', Consolas, monospace; font-size: 0.9em; }
+    pre            { background: var(--code-bg); border: 1px solid var(--border); border-radius: 6px; padding: 1rem; overflow-x: auto; }
+    pre code       { background: none; padding: 0; }
+    kbd            { border: 1px solid var(--border); }
+
+    /* ── Tables ── */
+    table          { border-collapse: collapse; width: 100%; margin: 1rem 0; }
+    th, td         { border: 1px solid var(--border); padding: 0.5rem 0.75rem; text-align: left; }
+    th             { background: var(--th-bg); }
+    caption        { font-style: italic; margin-bottom: 0.4rem; color: var(--muted); }
+
+    /* ── Forms ── */
+    input:not([type=checkbox]):not([type=radio]):not([type=range]),
+    select, textarea {
+      background: var(--surface); color: var(--text);
+      border: 1px solid var(--border); padding: 0.4rem 0.65rem;
+      border-radius: 4px; width: 100%; max-width: 480px;
+    }
+    button   { background: var(--accent); color: #fff; border: none; padding: 0.5rem 1.2rem; border-radius: 5px; cursor: pointer; }
+    fieldset { border: 1px solid var(--border); border-radius: 8px; padding: 1rem 1.5rem; margin-bottom: 1.5rem; }
+    legend   { color: var(--accent); font-weight: bold; padding: 0 0.5rem; }
+
+    /* ── Theme toggle ── */
+    .theme-legend { display:inline-flex; align-items:center; gap:.5rem; border:1px solid var(--border); border-radius:5px; padding:.25rem .75rem; margin-bottom:1rem; background:var(--surface); font-size:.85rem; }
+    .theme-legend input { accent-color:var(--accent); cursor:pointer; margin:0; }
+    .theme-legend label { cursor:pointer; font-weight:600; }
+  </style>
+
+</head>
+<body>
+
+  <!-- ================================================================
+       DARK MODE TOGGLE — pure CSS :has() selector, zero JavaScript
+       ================================================================ -->
+  <fieldset class="theme-legend">
+    <legend>Text Preference</legend>
+    <input type="checkbox" id="theme-toggle" aria-label="Toggle dark mode">
+    <label for="theme-toggle">Dark Mode</label>
+    <span>Pure CSS &bull; Zero JavaScript</span>
+  </fieldset>
+
+  <!-- ================================================================
+       SKIP NAVIGATION (Accessibility)
+       ================================================================ -->
+  <a href="#main-content">Skip to main content</a>
+
+  <!-- ================================================================
+       HEADER
+       ================================================================ -->
+  <header role="banner">
+    <hgroup>
+      <h1>Developer Command Center</h1>
+      <p>Personal Dashboard for <abbr title="Computer Science">CS</abbr> Students &mdash; Pure <abbr title="HyperText Markup Language 5">HTML5</abbr> Showcase</p>
+    </hgroup>
+    <p>
+      <time datetime="2026-06-02">Tuesday, 2 June 2026</time>
+      &bull;
+      Semester 3, Academic Year <time datetime="2025">2025</time>&ndash;<time datetime="2026">2026</time>
+      &bull;
+      <small>Built with <abbr title="HyperText Markup Language">HTML</abbr> only &ndash; No <abbr title="Cascading Style Sheets">CSS</abbr>, No JavaScript</small>
+    </p>
+
+    <!-- ================================================================
+         PRIMARY NAVIGATION
+         ================================================================ -->
+    <nav aria-label="Main navigation">
+      <ul>
+        <li><a href="#profile">Student Profile</a></li>
+        <li><a href="#skills">Skills &amp; Progress</a></li>
+        <li><a href="#timetable">Study Timetable</a></li>
+        <li><a href="#commands">Command Reference</a></li>
+        <li><a href="#projects">Project Tracker</a></li>
+        <li><a href="#registration">Registration Form</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#media">Multimedia</a></li>
+        <li><a href="#semantic">Semantic Elements</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- ================================================================
+       MAIN CONTENT
+       ================================================================ -->
+  <main id="main-content" role="main">
+
+    <!-- ================================================================
+         SECTION 1: STUDENT PROFILE
+         ================================================================ -->
+    <section id="profile" aria-labelledby="profile-heading">
+      <h2 id="profile-heading">Student Profile</h2>
+
+      <article>
+        <hgroup>
+          <h3>Your Name</h3>
+          <p><em>1st Year BCA Student &amp; Aspiring Developer</em></p>
+        </hgroup>
+
+        <figure>
+          <img src="https://via.placeholder.com/140x140/1a3c6e/ffffff?text=HM"
+               alt="Profile photo placeholder"
+               width="140" height="140">
+          <figcaption>Your Name &mdash; <abbr title="Bachelor of Computer Applications">BCA</abbr>, Class of <time datetime="2028">2028</time></figcaption>
+        </figure>
+
+        <p>
+          1st Year <abbr title="Bachelor of Computer Applications">BCA</abbr> student at <strong>The National Institute of Engineering (<abbr title="National Institute of Engineering">NIE</abbr>), Mysore</strong>.
+          Deeply interested in understanding how the web works from first principles — currently exploring
+          <strong>HTML5</strong>, <strong>C programming</strong>, and <strong>Operating Systems</strong>.
+          Passionate about building things that are clean, minimal, and well-structured.
+        </p>
+
+        <blockquote cite="https://en.wikiquote.org/wiki/Donald_Knuth">
+          <p>&#8220;Programs are meant to be read by humans and only incidentally for computers to execute.&#8221;</p>
+          <footer>&mdash; <cite>Donald Knuth</cite>, <em>Literate Programming</em> (1984)</footer>
+        </blockquote>
+
+        <!-- Contact as semantic address element -->
+        <address>
+          <strong>Contact Information:</strong><br>
+          Email: contact [at] nie.ac.in <small>(do not publish — fill in locally)</small><br>
+          GitHub: github.com/Hrushikesh-Mysore<br>
+          Location: The National Institute of Engineering, Mysore, Karnataka
+        </address>
+
+        <p>
+          Member since <time datetime="2025-09-01">September 2025</time>.
+          Last active: <time datetime="2026-06-02T09:30:00+05:30">Today at 09:30 <abbr title="Indian Standard Time">IST</abbr></time>.
+        </p>
+
+        <!-- Profile Details using Description List -->
+        <dl>
+          <dt>Student <abbr title="Identification Number">ID</abbr></dt>
+          <dd><em>Not assigned</em></dd>
+
+          <dt>Program</dt>
+          <dd><abbr title="Bachelor of Computer Applications">BCA</abbr> &mdash; 3-Year Program</dd>
+
+          <dt>Year of Study</dt>
+          <dd>1<sup>st</sup> Year (Semester 3)</dd>
+
+          <dt><abbr title="Cumulative Grade Point Average">CGPA</abbr></dt>
+          <dd>9.17 / 10.00 &mdash; <strong>First Class with Distinction</strong></dd>
+
+          <dt>Expected Graduation</dt>
+          <dd><time datetime="2028-05">May 2028</time></dd>
+
+          <dt>Academic Advisor</dt>
+          <dd>Faculty, Department of Computer Applications, NIE Mysore</dd>
+
+          <dt>Research Focus</dt>
+          <dd>Web Technologies, Operating Systems, C Programming, Algorithm Design</dd>
+
+          <dt>Scholarship</dt>
+          <dd><mark>CGPA 9.17 &mdash; Semester 1 &amp; 2</mark></dd>
+
+          <dt>Competitive Programming</dt>
+          <dd>GitHub: Hrushikesh-Mysore &bull; LeetCode &amp; Codeforces profiles coming soon</dd>
+        </dl>
+
+        <!-- Interests list -->
+        <h4>Areas of Interest</h4>
+        <ul>
+          <li>Distributed Systems &amp; Consensus Protocols</li>
+          <li>Machine Learning &amp; Deep Learning</li>
+          <li>Systems Programming (C, Rust, Go)</li>
+          <li>Compilers &amp; Programming Language Theory</li>
+          <li>Open Source Contribution</li>
+          <li>Competitive Programming &amp; Algorithm Design</li>
+        </ul>
+      </article>
+    </section>
+
+    <hr>
+
+    <!-- ================================================================
+         SECTION 2: SKILLS & PROGRESS TRACKERS
+         ================================================================ -->
+    <section id="skills" aria-labelledby="skills-heading">
+      <h2 id="skills-heading">Skills &amp; Proficiency Tracker</h2>
+      <p>
+        Proficiency levels tracked using native <code>&lt;progress&gt;</code> elements.
+        Academic performance visualized using <code>&lt;meter&gt;</code> elements with
+        <code>low</code>, <code>high</code>, and <code>optimum</code> thresholds.
+      </p>
+
+      <!-- Programming Language Proficiency -->
+      <article>
+        <h3>Programming Language Proficiency</h3>
+
+        <table>
+          <caption>Programming Language Proficiency Levels &mdash; Self-Assessment, June 2026</caption>
+          <thead>
+            <tr>
+              <th scope="col">Language</th>
+              <th scope="col">Score</th>
+              <th scope="col">Progress Indicator</th>
+              <th scope="col">Level</th>
+              <th scope="col">Years of Use</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Python 3</td>
+              <td>92 / 100</td>
+              <td><progress value="92" max="100" aria-label="Python proficiency: 92 out of 100">92%</progress></td>
+              <td><strong>Expert</strong></td>
+              <td>4 years</td>
+            </tr>
+            <tr>
+              <td>C / C++</td>
+              <td>78 / 100</td>
+              <td><progress value="78" max="100" aria-label="C/C++ proficiency: 78 out of 100">78%</progress></td>
+              <td>Advanced</td>
+              <td>3 years</td>
+            </tr>
+            <tr>
+              <td>Java</td>
+              <td>85 / 100</td>
+              <td><progress value="85" max="100" aria-label="Java proficiency: 85 out of 100">85%</progress></td>
+              <td>Advanced</td>
+              <td>3 years</td>
+            </tr>
+            <tr>
+              <td>JavaScript / TypeScript</td>
+              <td>70 / 100</td>
+              <td><progress value="70" max="100" aria-label="JavaScript proficiency: 70 out of 100">70%</progress></td>
+              <td>Intermediate</td>
+              <td>2 years</td>
+            </tr>
+            <tr>
+              <td>Rust</td>
+              <td>45 / 100</td>
+              <td><progress value="45" max="100" aria-label="Rust proficiency: 45 out of 100">45%</progress></td>
+              <td>Beginner&ndash;Intermediate</td>
+              <td>8 months</td>
+            </tr>
+            <tr>
+              <td>Go (Golang)</td>
+              <td>55 / 100</td>
+              <td><progress value="55" max="100" aria-label="Go proficiency: 55 out of 100">55%</progress></td>
+              <td>Intermediate</td>
+              <td>1 year</td>
+            </tr>
+            <tr>
+              <td><abbr title="Structured Query Language">SQL</abbr></td>
+              <td>80 / 100</td>
+              <td><progress value="80" max="100" aria-label="SQL proficiency: 80 out of 100">80%</progress></td>
+              <td>Advanced</td>
+              <td>2.5 years</td>
+            </tr>
+            <tr>
+              <td>Bash / Shell Scripting</td>
+              <td>65 / 100</td>
+              <td><progress value="65" max="100" aria-label="Bash proficiency: 65 out of 100">65%</progress></td>
+              <td>Intermediate</td>
+              <td>2 years</td>
+            </tr>
+            <tr>
+              <td>Haskell</td>
+              <td>30 / 100</td>
+              <td><progress value="30" max="100" aria-label="Haskell proficiency: 30 out of 100">30%</progress></td>
+              <td>Beginner</td>
+              <td>3 months</td>
+            </tr>
+          </tbody>
+        </table>
+      </article>
+
+      <!-- Academic Performance Meters -->
+      <article>
+        <h3>Semester 3 Academic Performance</h3>
+        <p>
+          Using <code>&lt;meter&gt;</code> with threshold attributes: <em>low</em> (&ge; 50 to pass),
+          <em>high</em> (&ge; 70 is good), <em>optimum</em> (90+ is excellent).
+        </p>
+
+        <table>
+          <caption>Semester 3 Subject Performance &mdash; Internal Assessment Scores</caption>
+          <thead>
+            <tr>
+              <th scope="col">Subject</th>
+              <th scope="col">Score</th>
+              <th scope="col">Performance Meter</th>
+              <th scope="col">Credits</th>
+              <th scope="col">Grade</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Data Structures Using C</td>
+              <td>94 / 100</td>
+              <td><meter value="94" min="0" max="100" low="50" high="70" optimum="90" aria-label="Algorithms score: 94/100">94/100</meter></td>
+              <td>4</td>
+              <td><strong>A+</strong></td>
+            </tr>
+            <tr>
+              <td>Operating Systems</td>
+              <td>88 / 100</td>
+              <td><meter value="88" min="0" max="100" low="50" high="70" optimum="90" aria-label="OS score: 88/100">88/100</meter></td>
+              <td>4</td>
+              <td><strong>A</strong></td>
+            </tr>
+            <tr>
+              <td>Database Management Systems</td>
+              <td>79 / 100</td>
+              <td><meter value="79" min="0" max="100" low="50" high="70" optimum="90" aria-label="DBMS score: 79/100">79/100</meter></td>
+              <td>3</td>
+              <td>B+</td>
+            </tr>
+            <tr>
+              <td>Computer Organization</td>
+              <td>82 / 100</td>
+              <td><meter value="82" min="0" max="100" low="50" high="70" optimum="90" aria-label="Networks score: 82/100">82/100</meter></td>
+              <td>3</td>
+              <td>A&minus;</td>
+            </tr>
+            <tr>
+              <td>Discrete Mathematics</td>
+              <td>91 / 100</td>
+              <td><meter value="91" min="0" max="100" low="50" high="70" optimum="90" aria-label="ML score: 91/100">91/100</meter></td>
+              <td>4</td>
+              <td><strong>A+</strong></td>
+            </tr>
+            <tr>
+              <td>Web Technologies</td>
+              <td>85 / 100</td>
+              <td><meter value="85" min="0" max="100" low="50" high="70" optimum="90" aria-label="SE score: 85/100">85/100</meter></td>
+              <td>3</td>
+              <td><strong>A</strong></td>
+            </tr>
+            <tr>
+              <td>Java Programming</td>
+              <td>76 / 100</td>
+              <td><meter value="76" min="0" max="100" low="50" high="70" optimum="90" aria-label="Compiler Design score: 76/100">76/100</meter></td>
+              <td>3</td>
+              <td>B+</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <th scope="row">Semester Totals</th>
+              <td><strong>595 / 700</strong></td>
+              <td><meter value="595" min="0" max="700" low="350" high="490" optimum="630" aria-label="Total score: 595 out of 700">595/700</meter></td>
+              <td><strong>24 Credits</strong></td>
+              <td><strong><abbr title="Semester Grade Point Average">SGPA</abbr>: 9.17</strong></td>
+            </tr>
+          </tfoot>
+        </table>
+      </article>
+
+      <!-- Dev Tools Proficiency -->
+      <article>
+        <h3>Development Tools &amp; Frameworks</h3>
+
+        <table>
+          <caption>Tool and Framework Fluency &mdash; Updated June 2026</caption>
+          <thead>
+            <tr>
+              <th scope="col">Tool / Framework</th>
+              <th scope="col">Category</th>
+              <th scope="col">Fluency</th>
+              <th scope="col">Progress</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Git &amp; GitHub</td>
+              <td>Version Control</td>
+              <td><strong>Expert</strong></td>
+              <td><progress value="95" max="100" aria-label="Git: 95%">95%</progress></td>
+            </tr>
+            <tr>
+              <td>Linux (Ubuntu/Arch)</td>
+              <td><abbr title="Operating System">OS</abbr> &amp; Shell</td>
+              <td>Advanced</td>
+              <td><progress value="82" max="100" aria-label="Linux: 82%">82%</progress></td>
+            </tr>
+            <tr>
+              <td>Docker &amp; Compose</td>
+              <td>Containers</td>
+              <td>Intermediate</td>
+              <td><progress value="60" max="100" aria-label="Docker: 60%">60%</progress></td>
+            </tr>
+            <tr>
+              <td>PyTorch / TensorFlow</td>
+              <td><abbr title="Machine Learning">ML</abbr> Frameworks</td>
+              <td>Intermediate</td>
+              <td><progress value="65" max="100" aria-label="PyTorch/TF: 65%">65%</progress></td>
+            </tr>
+            <tr>
+              <td>PostgreSQL</td>
+              <td>Relational Database</td>
+              <td>Advanced</td>
+              <td><progress value="77" max="100" aria-label="PostgreSQL: 77%">77%</progress></td>
+            </tr>
+            <tr>
+              <td>gRPC / Protocol Buffers</td>
+              <td><abbr title="Remote Procedure Call">RPC</abbr> &amp; Serialization</td>
+              <td>Intermediate</td>
+              <td><progress value="58" max="100" aria-label="gRPC: 58%">58%</progress></td>
+            </tr>
+            <tr>
+              <td>Kubernetes (<abbr title="Kubernetes">k8s</abbr>)</td>
+              <td>Container Orchestration</td>
+              <td>Beginner</td>
+              <td><progress value="25" max="100" aria-label="Kubernetes: 25%">25%</progress></td>
+            </tr>
+          </tbody>
+        </table>
+      </article>
+    </section>
+
+    <hr>
+
+    <!-- ================================================================
+         SECTION 3: STUDY TIMETABLE
+         ================================================================ -->
+    <section id="timetable" aria-labelledby="timetable-heading">
+      <h2 id="timetable-heading">Weekly Study Timetable</h2>
+
+      <table>
+        <caption>
+          <strong>Semester 3 Weekly Schedule</strong>
+          &mdash; <time datetime="2025-12">December 2025</time> to <time datetime="2026-04">April 2026</time><br>
+          <small>
+            All times in <abbr title="Indian Standard Time">IST</abbr> (UTC+5:30).
+            <mark>Highlighted cells</mark> indicate priority activities.
+          </small>
+        </caption>
+
+        <colgroup>
+          <col><!-- Time slot column -->
+          <col title="Monday">
+          <col title="Tuesday">
+          <col title="Wednesday">
+          <col title="Thursday">
+          <col title="Friday">
+          <col title="Saturday">
+          <col title="Sunday">
+        </colgroup>
+
+        <thead>
+          <tr>
+            <th scope="col">Time</th>
+            <th scope="col">Monday</th>
+            <th scope="col">Tuesday</th>
+            <th scope="col">Wednesday</th>
+            <th scope="col">Thursday</th>
+            <th scope="col">Friday</th>
+            <th scope="col">Saturday</th>
+            <th scope="col">Sunday</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <th scope="row">
+              <time datetime="07:00">07:00</time>&ndash;<time datetime="08:30">08:30</time>
+            </th>
+            <td>Morning Exercise &amp; Breakfast</td>
+            <td>Morning Exercise &amp; Breakfast</td>
+            <td>Morning Exercise &amp; Breakfast</td>
+            <td>Morning Exercise &amp; Breakfast</td>
+            <td>Morning Exercise &amp; Breakfast</td>
+            <td>Long Run / Gym</td>
+            <td>Rest &amp; Recovery</td>
+          </tr>
+
+          <tr>
+            <th scope="row">
+              <time datetime="09:00">09:00</time>&ndash;<time datetime="10:30">10:30</time>
+            </th>
+            <td>
+              <strong>Algorithms Lecture</strong><br>
+              <small>Lecture Hall A, Prof. Gupta</small>
+            </td>
+            <td>
+              <strong>OS Lab</strong><br>
+              <small>Lab 101, Dr. Sharma</small>
+            </td>
+            <td>
+              <strong>Algorithms Tutorial</strong><br>
+              <small>Room 108, <abbr title="Teaching Assistant">TA</abbr> Priya</small>
+            </td>
+            <td>
+              <strong>ML Lecture</strong><br>
+              <small>Seminar Room 2, Prof. Mehta</small>
+            </td>
+            <td>
+              <strong>Networks Lecture</strong><br>
+              <small>Lecture Hall B, Dr. Nair</small>
+            </td>
+            <td><mark>Self Study &amp; Revision</mark></td>
+            <td>Personal Projects</td>
+          </tr>
+
+          <tr>
+            <th scope="row">
+              <time datetime="10:45">10:45</time>&ndash;<time datetime="12:15">12:15</time>
+            </th>
+            <td>
+              <strong><abbr title="Database Management Systems">DBMS</abbr> Lecture</strong><br>
+              <small>Room 302, Prof. Kumar</small>
+            </td>
+            <td>
+              <strong>Networks Lab</strong><br>
+              <small>Lab 205, Dr. Nair</small>
+            </td>
+            <td>
+              <strong><abbr title="Software Engineering">SE</abbr> Lecture</strong><br>
+              <small>Room 401, Prof. Anand</small>
+            </td>
+            <td>
+              <strong>Compiler Design</strong><br>
+              <small>Room 305, Dr. Iyer</small>
+            </td>
+            <td>
+              <strong>ML Lab</strong><br>
+              <small>Lab 302, <abbr title="Teaching Assistant">TA</abbr> Rajan</small>
+            </td>
+            <td><mark>Project Development</mark></td>
+            <td>Personal Projects</td>
+          </tr>
+
+          <tr>
+            <th scope="row">
+              <time datetime="12:15">12:15</time>&ndash;<time datetime="13:15">13:15</time>
+            </th>
+            <td colspan="7"> Lunch Break &mdash; Student Cafeteria / Canteen</td>
+          </tr>
+
+          <tr>
+            <th scope="row">
+              <time datetime="13:15">13:15</time>&ndash;<time datetime="15:00">15:00</time>
+            </th>
+            <td><abbr title="Operating Systems">OS</abbr> Self Study</td>
+            <td>
+              <strong><abbr title="Database Management Systems">DBMS</abbr> Tutorial</strong><br>
+              <small>Room 205</small>
+            </td>
+            <td>Networks Study Group</td>
+            <td>
+              <strong><abbr title="Software Engineering">SE</abbr> Lab</strong><br>
+              <small>Lab 110</small>
+            </td>
+            <td>Free Slot &mdash; Office Hours</td>
+            <td>LeetCode Practice</td>
+            <td><mark>Weekly Review &amp; Planning</mark></td>
+          </tr>
+
+          <tr>
+            <th scope="row">
+              <time datetime="15:00">15:00</time>&ndash;<time datetime="17:00">17:00</time>
+            </th>
+            <td><mark>LeetCode Practice</mark></td>
+            <td>Research Paper Reading</td>
+            <td>Distrib. KV Store Dev.</td>
+            <td><mark>LeetCode Practice</mark></td>
+            <td>Research / Extra Reading</td>
+            <td>Hackathon / Open Source</td>
+            <td>Assignment Completion</td>
+          </tr>
+
+          <tr>
+            <th scope="row">
+              <time datetime="17:00">17:00</time>&ndash;<time datetime="19:00">19:00</time>
+            </th>
+            <td>Open Source Contribution</td>
+            <td><mark>Project Development</mark></td>
+            <td>Open Source Contribution</td>
+            <td><mark>Project Development</mark></td>
+            <td>CS Society / Clubs</td>
+            <td>Personal Projects</td>
+            <td>Preparation for Next Week</td>
+          </tr>
+
+          <tr>
+            <th scope="row">
+              <time datetime="19:30">19:30</time>&ndash;<time datetime="21:30">21:30</time>
+            </th>
+            <td>Revision &amp; Notes</td>
+            <td>Revision &amp; Notes</td>
+            <td>Revision &amp; Notes</td>
+            <td>Revision &amp; Notes</td>
+            <td> Early Rest (Pre-weekend reset)</td>
+            <td>Revision &amp; Notes</td>
+            <td>Weekend Wrap-up</td>
+          </tr>
+        </tbody>
+
+        <tfoot>
+          <tr>
+            <th scope="row" colspan="2">Weekly Summary</th>
+            <td colspan="3">
+              Lectures &amp; Labs: <strong>~22 hours/week</strong><br>
+              Self Study: <strong>~20 hours/week</strong>
+            </td>
+            <td colspan="2">
+              Projects &amp; Practice: <strong>~10 hours/week</strong>
+            </td>
+            <td>
+              Total: <strong>&asymp; 52 hrs</strong>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </section>
+
+    <hr>
+
+    <!-- ================================================================
+         SECTION 4: LINUX & GIT COMMAND REFERENCE
+         ================================================================ -->
+    <section id="commands" aria-labelledby="commands-heading">
+      <h2 id="commands-heading"> Linux &amp; Git Command Reference</h2>
+      <p>
+        A comprehensive quick-reference for essential <abbr title="Command Line Interface">CLI</abbr> commands.
+        Uses <code>&lt;details&gt;</code> &amp; <code>&lt;summary&gt;</code> for collapsible sections,
+        and <code>&lt;pre&gt;</code>, <code>&lt;code&gt;</code>, <code>&lt;kbd&gt;</code>,
+        <code>&lt;samp&gt;</code>, <code>&lt;var&gt;</code> for code semantics.
+      </p>
+
+      <!-- ======================== LINUX COMMANDS ======================== -->
+      <article>
+        <h3> Essential Linux / Unix Commands</h3>
+
+        <details open>
+          <summary><strong> File System Navigation</strong></summary>
+
+          <dl>
+            <dt><kbd>pwd</kbd></dt>
+            <dd>
+              <strong>Print Working Directory</strong> &mdash; outputs the absolute path of the current directory.
+              <pre><code>$ pwd
+/home/hrushikesh/projects/distrib-kv</code></pre>
+            </dd>
+
+            <dt><kbd>ls</kbd> [<var>flags</var>] [<var>path</var>]</dt>
+            <dd>
+              <strong>List</strong> directory contents. Commonly used flags:
+              <ul>
+                <li><code>-l</code> &mdash; long listing with permissions, owner, size, and date</li>
+                <li><code>-a</code> &mdash; show hidden files (those starting with <code>.</code>)</li>
+                <li><code>-h</code> &mdash; human-readable file sizes (<abbr title="kilobytes">KB</abbr>, <abbr title="megabytes">MB</abbr>)</li>
+                <li><code>-t</code> &mdash; sort by modification time (newest first)</li>
+                <li><code>-r</code> &mdash; reverse sort order</li>
+              </ul>
+              <pre><code>$ ls -lah ~/projects
+total 48K
+drwxr-xr-x  5 hrushikesh users 4.0K Jun  2 09:00 .
+drwxr-xr-x 23 hrushikesh users 4.0K Jun  2 08:30 ..
+drwxr-xr-x  8 hrushikesh users 4.0K Jun  1 22:15 distrib-kv
+-rw-r--r--  1 hrushikesh users  512 May 30 14:22 README.md
+drwxr-xr-x  3 hrushikesh users 4.0K May 28 10:00 ml-code-review</code></pre>
+            </dd>
+
+            <dt><kbd>cd</kbd> <var>directory</var></dt>
+            <dd>
+              <strong>Change Directory</strong>.
+              <pre><code>$ cd ~/projects/distrib-kv   # absolute path
+$ cd src/                    # relative path
+$ cd ..                      # go up one level
+$ cd -                       # go to previous directory
+$ cd ~                       # go to home directory</code></pre>
+            </dd>
+
+            <dt><kbd>find</kbd> <var>path</var> [<var>options</var>]</dt>
+            <dd>
+              Recursively search for files and directories matching criteria.
+              <pre><code>$ find . -name "*.py" -type f           # all Python files
+$ find . -name "*.log" -mtime -7        # logs modified in last 7 days
+$ find . -size +1M -type f              # files larger than 1 MB
+$ find . -empty -type d                 # empty directories</code></pre>
+            </dd>
+
+            <dt><kbd>tree</kbd> [<var>path</var>]</dt>
+            <dd>
+              Display directory structure as a tree. Requires <code>sudo apt install tree</code>.
+              <pre><code>$ tree -L 2 ./src
+src/
+├── node/
+│   ├── leader.py
+│   ├── follower.py
+│   └── candidate.py
+├── storage/
+│   ├── log.py
+│   └── state_machine.py
+└── main.py</code></pre>
+            </dd>
+          </dl>
+        </details>
+
+        <details>
+          <summary><strong> File Operations</strong></summary>
+
+          <dl>
+            <dt><kbd>cp</kbd> <var>source</var> <var>dest</var></dt>
+            <dd>
+              <strong>Copy</strong> files or directories.
+              <pre><code>$ cp config.yaml config.yaml.bak       # copy with backup name
+$ cp -r ./src/ ./src-backup/           # recursive directory copy
+$ cp -u newer.py older.py             # copy only if newer</code></pre>
+            </dd>
+
+            <dt><kbd>mv</kbd> <var>source</var> <var>dest</var></dt>
+            <dd>
+              <strong>Move</strong> or rename files and directories.
+              <pre><code>$ mv draft.py final.py                 # rename
+$ mv *.log /var/archive/logs/         # move all logs
+$ mv -n src.txt dest.txt              # no-clobber (safe)</code></pre>
+            </dd>
+
+            <dt><kbd>rm</kbd> <var>file</var></dt>
+            <dd>
+              <strong>Remove</strong> files and directories. <strong>Irreversible!</strong>
+              <pre><code>$ rm temp.txt                          # remove single file
+$ rm -i *.log                          # interactive (prompt each)
+$ rm -rf ./build/                      # ⚠ CAUTION: recursive force delete</code></pre>
+              <p>
+                <strong>Warning:</strong> <code>rm -rf</code> permanently deletes without confirmation.
+                Consider <samp>trash-cli</samp> as a safer alternative.
+              </p>
+            </dd>
+
+            <dt><kbd>chmod</kbd> <var>permissions</var> <var>file</var></dt>
+            <dd>
+              <strong>Change file mode (permissions)</strong>.
+              <pre><code>$ chmod 755 run.sh           # rwxr-xr-x (owner can execute)
+$ chmod +x deploy.sh         # add execute bit for all
+$ chmod 644 config.conf      # rw-r--r-- (config file)
+$ chmod -R 700 ~/.ssh/       # recursive, private directory</code></pre>
+            </dd>
+
+            <dt><kbd>grep</kbd> <var>pattern</var> <var>file</var></dt>
+            <dd>
+              <strong>Global Regular Expression Print</strong> &mdash; search file contents.
+              <pre><code>$ grep "ERROR" server.log              # find errors in log
+$ grep -r "TODO" ./src/ --include="*.py" # recursive, Python only
+$ grep -n "def main" app.py            # show line numbers
+$ grep -i "warning" *.log              # case-insensitive</code></pre>
+            </dd>
+
+            <dt><kbd>cat</kbd> / <kbd>less</kbd> / <kbd>head</kbd> / <kbd>tail</kbd></dt>
+            <dd>
+              File viewing utilities.
+              <pre><code>$ cat README.md                        # print file to stdout
+$ less large_file.txt                  # paginated viewer (q to quit)
+$ head -n 20 logfile.txt              # first 20 lines
+$ tail -f /var/log/syslog             # live-follow (great for logs)</code></pre>
+            </dd>
+          </dl>
+        </details>
+
+        <details>
+          <summary><strong> Process &amp; System Management</strong></summary>
+
+          <dl>
+            <dt><kbd>ps aux</kbd></dt>
+            <dd>
+              List all running processes with details.
+              <pre><code>$ ps aux | grep python
+hrushikesh 2341  1.2  3.4  87440 34560 pts/0 Sl  10:30  0:08 python3 server.py
+hrushikesh 2399  0.0  0.0   6432   872 pts/1 S+  10:31  0:00 grep python</code></pre>
+            </dd>
+
+            <dt><kbd>kill</kbd> [<var>-signal</var>] <var>PID</var></dt>
+            <dd>
+              Send a signal to a process by <abbr title="Process Identifier">PID</abbr>.
+              <pre><code>$ kill 2341            # SIGTERM (15) – graceful shutdown
+$ kill -9 2341         # SIGKILL – immediate, no cleanup
+$ killall python3      # kill all processes by name</code></pre>
+            </dd>
+
+            <dt><kbd>top</kbd> / <kbd>htop</kbd></dt>
+            <dd>
+              Dynamic real-time process viewer. <samp>htop</samp> is the enhanced ncurses version.
+              <pre><code>$ top                  # standard, minimal
+$ htop                 # enhanced (install: sudo apt install htop)</code></pre>
+              <samp>
+top - 10:45:02 up 2 days, 3:12,  2 users,  load average: 0.42, 0.51, 0.48
+Tasks: 218 total, 1 running, 217 sleeping, 0 stopped, 0 zombie
+%Cpu(s): 4.3 us, 1.2 sy, 0.0 ni, 94.1 id, 0.3 wa, 0.0 hi, 0.1 si
+              </samp>
+            </dd>
+
+            <dt><kbd>df -h</kbd> &amp; <kbd>du -sh</kbd> <var>path</var></dt>
+            <dd>
+              Disk usage utilities.
+              <pre><code>$ df -h                       # filesystem disk space
+$ du -sh ~/projects           # size of directory
+$ du -ah . | sort -rh | head  # top 10 largest files/dirs</code></pre>
+            </dd>
+
+            <dt><kbd>systemctl</kbd></dt>
+            <dd>
+              Manage <abbr title="systemd service manager">systemd</abbr> services.
+              <pre><code>$ sudo systemctl start nginx
+$ sudo systemctl enable postgresql    # start on boot
+$ sudo systemctl status docker
+$ sudo systemctl restart ssh</code></pre>
+            </dd>
+          </dl>
+        </details>
+
+        <details>
+          <summary><strong> Networking &amp; Package Management</strong></summary>
+
+          <dl>
+            <dt><kbd>ssh</kbd> <var>user</var>@<var>host</var></dt>
+            <dd>
+              <strong>Secure Shell</strong> &mdash; encrypted remote login.
+              <pre><code>$ ssh hrushikesh@lab.cs.nie.ac.in
+$ ssh -p 2222 hrushikesh@remote.server.edu  # custom port
+$ ssh -i ~/.ssh/id_ed25519 hrushikesh@host  # specific key
+$ ssh -L 8080:localhost:80 user@server    # local port forwarding</code></pre>
+            </dd>
+
+            <dt><kbd>curl</kbd> <var>URL</var></dt>
+            <dd>
+              Transfer data using various protocols.
+              <pre><code>$ curl https://api.github.com/users/Hrushikesh-Mysore
+$ curl -o data.json https://jsonplaceholder.typicode.com/posts
+$ curl -X POST -H "Content-Type: application/json" \
+  -d '{"title":"foo","body":"bar"}' \
+  https://jsonplaceholder.typicode.com/posts</code></pre>
+            </dd>
+
+            <dt><kbd>sudo apt</kbd> <var>command</var></dt>
+            <dd>
+              <abbr title="Advanced Package Tool">APT</abbr> package manager (Debian/Ubuntu).
+              <pre><code>$ sudo apt update                     # refresh package index
+$ sudo apt upgrade                    # upgrade all packages
+$ sudo apt install git vim htop       # install packages
+$ sudo apt remove obsolete-pkg        # uninstall package
+$ sudo apt autoremove                 # clean orphaned deps</code></pre>
+            </dd>
+
+            <dt><kbd>ping</kbd> / <kbd>traceroute</kbd> / <kbd>nslookup</kbd></dt>
+            <dd>
+              Network diagnostic tools.
+              <pre><code>$ ping -c 4 google.com                # send 4 ICMP packets
+$ traceroute nie.ac.in           # trace routing path
+$ nslookup github.com                 # DNS query</code></pre>
+            </dd>
+          </dl>
+        </details>
+      </article>
+
+      <!-- ======================== GIT COMMANDS ======================== -->
+      <article>
+        <h3> Git Version Control Commands</h3>
+
+        <details open>
+          <summary><strong> Repository Setup &amp; Configuration</strong></summary>
+
+          <dl>
+            <dt><kbd>git init</kbd></dt>
+            <dd>
+              Initialize a new local Git repository.
+              <pre><code>$ mkdir distrib-kv &amp;&amp; cd distrib-kv
+$ git init
+Initialized empty Git repository in /home/Hrushikesh-Mysore/projects/.git/</code></pre>
+            </dd>
+
+            <dt><kbd>git clone</kbd> <var>URL</var> [<var>folder</var>]</dt>
+            <dd>
+              Clone a repository from a remote source.
+              <pre><code>$ git clone https://github.com/Hrushikesh-Mysore/projects.git
+$ git clone git@github.com:Hrushikesh-Mysore/projects.git     # SSH
+$ git clone https://github.com/repo.git my-folder      # custom name
+$ git clone --depth 1 https://github.com/repo.git      # shallow clone</code></pre>
+            </dd>
+
+            <dt><kbd>git config</kbd></dt>
+            <dd>
+              Set Git configuration values.
+              <pre><code>$ git config --global user.name "Your Name"
+$ git config --global user.email "contact [at] nie.ac.in"
+$ git config --global core.editor "vim"
+$ git config --global pull.rebase false
+$ git config --list                           # view all settings</code></pre>
+            </dd>
+          </dl>
+        </details>
+
+        <details>
+          <summary><strong> Staging, Committing &amp; History</strong></summary>
+
+          <dl>
+            <dt><kbd>git status</kbd></dt>
+            <dd>
+              Show working tree status: staged, unstaged, and untracked files.
+              <pre><code>$ git status
+On branch feature/log-replication
+Changes to be committed:
+  modified:   src/node/leader.py
+
+Changes not staged for commit:
+  modified:   tests/test_raft.py
+
+Untracked files:
+  docs/architecture.md</code></pre>
+            </dd>
+
+            <dt><kbd>git add</kbd> <var>file(s)</var></dt>
+            <dd>
+              Stage changes for the next commit.
+              <pre><code>$ git add src/node/leader.py           # single file
+$ git add .                            # all changes in cwd
+$ git add -p                           # interactive hunk staging</code></pre>
+            </dd>
+
+            <dt><kbd>git commit -m</kbd> <var>"message"</var></dt>
+            <dd>
+              Record staged changes as a commit. Follow <abbr title="Conventional Commits">CC</abbr> convention:
+              <pre><code>$ git commit -m "feat: implement Raft leader election"
+$ git commit -m "fix: resolve split-brain on network partition"
+$ git commit -m "docs: add architecture diagram to README"
+$ git commit --amend --no-edit         # amend last commit</code></pre>
+            </dd>
+
+            <dt><kbd>git log</kbd></dt>
+            <dd>
+              Inspect commit history.
+              <pre><code>$ git log --oneline --graph --all
+* a3f9c12 (HEAD -> main) feat: add log replication (Raft Phase 2)
+* 7b2e841 feat: implement leader election (Raft Phase 1)
+* 3d1a508 init: project scaffolding and basic TCP server
+| * 91f4b3c (feature/benchmarks) perf: add latency benchmarks
+|/
+* 0c88e52 Initial commit</code></pre>
+            </dd>
+
+            <dt><kbd>git diff</kbd></dt>
+            <dd>
+              Show changes between commits, branches, or working tree.
+              <pre><code>$ git diff                             # unstaged changes
+$ git diff --staged                    # staged changes
+$ git diff main feature/login          # between branches
+$ git diff HEAD~3 HEAD                 # last 3 commits</code></pre>
+            </dd>
+          </dl>
+        </details>
+
+        <details>
+          <summary><strong> Branching, Merging &amp; Rebasing</strong></summary>
+
+          <dl>
+            <dt><kbd>git branch</kbd></dt>
+            <dd>
+              Manage branches.
+              <pre><code>$ git branch                           # list local branches
+$ git branch -a                        # list all (incl. remote)
+$ git branch feature/heartbeat         # create new branch
+$ git branch -d merged-feature         # delete merged branch
+$ git branch -D unmerged-feature       # force delete</code></pre>
+            </dd>
+
+            <dt><kbd>git switch</kbd> / <kbd>git checkout</kbd></dt>
+            <dd>
+              Switch between branches (<kbd>switch</kbd> is the modern syntax).
+              <pre><code>$ git switch main                      # switch to main
+$ git switch -c hotfix/security-patch  # create &amp; switch
+$ git checkout -b feature/benchmarks   # older syntax</code></pre>
+            </dd>
+
+            <dt><kbd>git merge</kbd> <var>branch</var></dt>
+            <dd>
+              Integrate changes from one branch into another.
+              <pre><code>$ git switch main
+$ git merge feature/log-replication    # fast-forward if possible
+$ git merge --no-ff feature/ui         # always create merge commit
+$ git merge --squash feature/wip       # squash into single commit</code></pre>
+            </dd>
+
+            <dt><kbd>git rebase</kbd> <var>branch</var></dt>
+            <dd>
+              Reapply commits on top of another base tip.
+              <pre><code>$ git rebase main                      # rebase current onto main
+$ git rebase -i HEAD~5                 # interactive rebase of last 5</code></pre>
+            </dd>
+          </dl>
+        </details>
+
+        <details>
+          <summary><strong> Remote Repositories &amp; Stashing</strong></summary>
+
+          <dl>
+            <dt><kbd>git remote</kbd></dt>
+            <dd>
+              Manage remote connections.
+              <pre><code>$ git remote -v                        # list with fetch/push URLs
+$ git remote add origin git@github.com:Hrushikesh-Mysore/projects.git
+$ git remote set-url origin https://github.com/Hrushikesh-Mysore/projects.git</code></pre>
+            </dd>
+
+            <dt><kbd>git push</kbd> / <kbd>git pull</kbd> / <kbd>git fetch</kbd></dt>
+            <dd>
+              Synchronize with remote.
+              <pre><code>$ git push origin main                 # push local main to origin
+$ git push -u origin feature/heartbeat # set upstream tracking
+$ git push --force-with-lease          # safe force push
+$ git pull --rebase                    # pull with rebase strategy
+$ git fetch --all --prune              # fetch all, clean stale refs</code></pre>
+            </dd>
+
+            <dt><kbd>git stash</kbd></dt>
+            <dd>
+              Temporarily shelve uncommitted changes.
+              <pre><code>$ git stash                            # stash with auto-message
+$ git stash push -m "WIP: heartbeat"  # named stash
+$ git stash list                       # show all stashes
+$ git stash pop                        # apply top and drop
+$ git stash apply stash@{2}            # apply specific stash</code></pre>
+            </dd>
+
+            <dt><kbd>git tag</kbd></dt>
+            <dd>
+              Create annotated version tags.
+              <pre><code>$ git tag v1.0.0 -m "Stable release 1.0.0"
+$ git push origin --tags               # push all tags
+$ git tag -l "v1.*"                    # list matching tags</code></pre>
+            </dd>
+          </dl>
+        </details>
+      </article>
+    </section>
+
+    <hr>
+
+    <!-- ================================================================
+         SECTION 5: PROJECT TRACKER
+         ================================================================ -->
+    <section id="projects" aria-labelledby="projects-heading">
+      <h2 id="projects-heading">Project &amp; Learning Goal Tracker</h2>
+
+      <!-- Active Projects -->
+      <article>
+        <h3>Active Projects</h3>
+
+        <details open>
+          <summary>
+            <strong>[Active] Project 1: Distributed Key-Value Store</strong>
+            &mdash; <em>In Progress</em> &bull;
+            <progress value="65" max="100" aria-label="Project 1: 65% complete">65%</progress> 65%
+          </summary>
+
+          <dl>
+            <dt>Description</dt>
+            <dd>
+              A fault-tolerant distributed key-value store implementing the
+              <abbr title="Raft Consensus Algorithm">Raft</abbr> consensus protocol in Python with
+              <abbr title="Google Remote Procedure Call">gRPC</abbr> communication.
+              Targets consistency, availability, and partition tolerance
+              (<abbr title="Consistency, Availability, Partition tolerance">CAP</abbr>).
+            </dd>
+
+            <dt>Repository</dt>
+            <dd><a href="https://github.com/Hrushikesh-Mysore/projects" target="_blank">github.com/Hrushikesh-Mysore/projects</a></dd>
+
+            <dt>Started</dt>
+            <dd><time datetime="2026-02-15">15 February 2026</time></dd>
+
+            <dt>Target Completion</dt>
+            <dd><time datetime="2026-07-31">31 July 2026</time></dd>
+
+            <dt>Tech Stack</dt>
+            <dd>Python 3.12, gRPC, Protocol Buffers, Docker, pytest, GitHub Actions</dd>
+
+            <dt>Milestones</dt>
+            <dd>
+              <ol>
+                <li>[x] Basic <abbr title="Transmission Control Protocol">TCP</abbr> client-server communication</li>
+                <li>[x] Cluster membership and peer discovery</li>
+                <li>[x] Leader election (Raft Phase 1)</li>
+                <li>[x] Log replication (Raft Phase 2)</li>
+                <li>[-] Fault tolerance &amp; log compaction (in progress)</li>
+                <li>[ ] Performance benchmarking &amp; optimization</li>
+                <li>[ ] Documentation, write-up &amp; demo video</li>
+              </ol>
+            </dd>
+          </dl>
+        </details>
+
+        <details>
+          <summary>
+            <strong>[In Progress] Project 2: ML-Powered Code Reviewer</strong>
+            &mdash; <em>Planning Phase</em> &bull;
+            <progress value="20" max="100" aria-label="Project 2: 20% complete">20%</progress> 20%
+          </summary>
+
+          <dl>
+            <dt>Description</dt>
+            <dd>
+              A <abbr title="Command Line Interface">CLI</abbr> tool using a fine-tuned
+              <abbr title="Large Language Model">LLM</abbr> (<abbr title="Code Understanding Model">CodeBERT</abbr>)
+              to automatically review Python code for style, potential bugs, and security vulnerabilities
+              as a pre-commit hook.
+            </dd>
+
+            <dt>Repository</dt>
+            <dd><a href="https://github.com/Hrushikesh-Mysore/projects" target="_blank">github.com/Hrushikesh-Mysore/projects</a></dd>
+
+            <dt>Started</dt>
+            <dd><time datetime="2026-04-01">1 April 2026</time></dd>
+
+            <dt>Target Completion</dt>
+            <dd><time datetime="2026-09-30">30 September 2026</time></dd>
+
+            <dt>Tech Stack</dt>
+            <dd>Python 3.12, HuggingFace Transformers, CodeBERT, Git Hooks, FastAPI</dd>
+          </dl>
+        </details>
+
+        <details>
+          <summary>
+            <strong>[Done] Project 3: Personal Portfolio Website</strong>
+            &mdash; <em>Completed <time datetime="2025-12-10">Dec 2025</time></em> &bull;
+            <progress value="100" max="100" aria-label="Project 3: complete">100%</progress>
+          </summary>
+
+          <dl>
+            <dt>Description</dt>
+            <dd>Responsive portfolio website showcasing academic projects, open-source contributions, and a technical blog.</dd>
+            <dt>Live URL</dt>
+            <dd><a href="https://github.com/Hrushikesh-Mysore" target="_blank">github.com/Hrushikesh-Mysore</a></dd>
+            <dt>Tech Stack</dt>
+            <dd>HTML5, CSS3, Vanilla JavaScript, GitHub Pages, Cloudflare</dd>
+          </dl>
+        </details>
+      </article>
+
+      <!-- Learning Goals -->
+      <article>
+        <h3>Learning Goals &amp; Progress</h3>
+
+        <details>
+          <summary><strong>Short-Term Goals (Next 3 Months)</strong></summary>
+          <ul>
+            <li>
+              Complete Raft fault-tolerance implementation
+              &mdash; <progress value="65" max="100">65%</progress> 65%
+            </li>
+            <li>
+              Finish ML Specialization on Coursera (5 courses)
+              &mdash; <progress value="4" max="5" aria-label="4 of 5 courses complete">4/5 courses</progress>
+            </li>
+            <li>
+              Solve 200 LeetCode problems
+              &mdash; <progress value="143" max="200" aria-label="143 of 200 solved">143/200</progress>
+            </li>
+            <li>
+              Contribute pull requests to 3 open source projects
+              &mdash; <progress value="2" max="3" aria-label="2 of 3 done">2/3</progress>
+            </li>
+            <li>
+              Read <cite>Designing Data-Intensive Applications</cite>
+              &mdash; <progress value="75" max="100">75%</progress>
+            </li>
+          </ul>
+        </details>
+
+        <details>
+          <summary><strong>Long-Term Goals (6&ndash;12 Months)</strong></summary>
+          <ul>
+            <li>Publish a research paper on distributed consensus optimization</li>
+            <li>Secure a software engineering internship at a top tech company</li>
+            <li>Learn Rust to advanced level for production systems programming</li>
+            <li>Deploy a production application with real users and telemetry</li>
+            <li>Pass the <abbr title="Amazon Web Services">AWS</abbr> Solutions Architect Associate certification</li>
+            <li>Mentor 2 junior students as part of the CS Society mentorship program</li>
+          </ul>
+        </details>
+
+        <details>
+          <summary><strong>Books &amp; Courses in Progress</strong></summary>
+          <ol>
+            <li>
+              <cite>Designing Data-Intensive Applications</cite> &mdash; Kleppmann
+              &nbsp; <progress value="75" max="100" aria-label="75% complete">75%</progress>
+            </li>
+            <li>
+              <cite>The Art of Computer Programming</cite> Vol. 1 &mdash; Knuth
+              &nbsp; <progress value="30" max="100" aria-label="30% complete">30%</progress>
+            </li>
+            <li>
+              <cite>Deep Learning</cite> &mdash; Goodfellow, Bengio &amp; Courville
+              &nbsp; <progress value="50" max="100" aria-label="50% complete">50%</progress>
+            </li>
+            <li>
+              <cite>Operating Systems: Three Easy Pieces</cite> &mdash; Arpaci-Dusseau
+              &nbsp; <progress value="60" max="100" aria-label="60% complete">60%</progress>
+            </li>
+            <li>
+              <cite>Clean Code</cite> &mdash; Robert C. Martin
+              &nbsp; <progress value="100" max="100" aria-label="complete">100% </progress>
+            </li>
+          </ol>
+        </details>
+      </article>
+
+      <!-- Certifications -->
+      <article>
+        <h3>Certifications &amp; Academic Achievements</h3>
+        <table>
+          <caption>Earned Certifications and Recognitions</caption>
+          <thead>
+            <tr>
+              <th scope="col">Certification / Award</th>
+              <th scope="col">Issuing Organization</th>
+              <th scope="col">Date Earned</th>
+              <th scope="col">Expiry</th>
+              <th scope="col">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Google IT Automation with Python</td>
+              <td>Google / Coursera</td>
+              <td><time datetime="2025-03-15">Mar 2025</time></td>
+              <td>No Expiry</td>
+              <td> Active</td>
+            </tr>
+            <tr>
+              <td>Machine Learning Specialization</td>
+              <td>DeepLearning.AI</td>
+              <td><time datetime="2025-08-20">Aug 2025</time></td>
+              <td>No Expiry</td>
+              <td> Active</td>
+            </tr>
+            <tr>
+              <td><abbr title="Amazon Web Services">AWS</abbr> Cloud Practitioner (CLF-C02)</td>
+              <td>Amazon Web Services</td>
+              <td><time datetime="2025-11-05">Nov 2025</time></td>
+              <td><time datetime="2028-11">Nov 2028</time></td>
+              <td> Active</td>
+            </tr>
+            <tr>
+              <td>Dean&rsquo;s List Recognition</td>
+              <td>University Academic Board</td>
+              <td><time datetime="2025-12-01">Dec 2025</time></td>
+              <td>Permanent</td>
+              <td><mark>Recurring (Sem 4 &amp; 5)</mark></td>
+            </tr>
+            <tr>
+              <td><abbr title="AWS Solutions Architect Associate">AWS SAA</abbr>-C03</td>
+              <td>Amazon Web Services</td>
+              <td><em>Planned</em></td>
+              <td>&mdash;</td>
+              <td> In Preparation</td>
+            </tr>
+          </tbody>
+        </table>
+      </article>
+    </section>
+
+    <hr>
+
+    <!-- ================================================================
+         SECTION 6: REGISTRATION & FEEDBACK FORM
+         ================================================================ -->
+    <section id="registration" aria-labelledby="registration-heading">
+      <h2 id="registration-heading"> Student Registration &amp; Feedback System</h2>
+      <p>
+        Demonstrating advanced native <abbr title="HyperText Markup Language">HTML</abbr> form controls:
+        <code>&lt;fieldset&gt;</code>, <code>&lt;legend&gt;</code>, <code>&lt;datalist&gt;</code>,
+        <code>&lt;optgroup&gt;</code>, <code>&lt;textarea&gt;</code>, and comprehensive validation
+        attributes &mdash; all without a single line of JavaScript.
+      </p>
+
+      <form id="student-form" action="#registration" method="post" enctype="multipart/form-data" novalidate>
+
+        <!-- ==================== Personal Information ==================== -->
+        <fieldset>
+          <legend> Personal Information</legend>
+
+          <p>
+            <label for="full-name">Full Name <abbr title="required field" aria-label="required">*</abbr></label><br>
+            <input type="text" id="full-name" name="full_name"
+                   placeholder="e.g. Hrushikesh M"
+                   required
+                   minlength="3"
+                   maxlength="100"
+                   autocomplete="name"
+                   aria-required="true"
+                   aria-describedby="name-hint"><br>
+            <small id="name-hint">Enter your full name as it appears on your university record.</small>
+          </p>
+
+          <p>
+            <label for="student-id">Student <abbr title="Identification Number">ID</abbr> <abbr title="required field" aria-label="required">*</abbr></label><br>
+            <input type="text" id="student-id" name="student_id"
+                   placeholder="CS-YYYY-XXXX"
+                   required
+                   pattern="[A-Z]{2}-\d{4}-\d{4}"
+                   title="Format: CS-YYYY-XXXX (e.g., CS-2024-0342). Two uppercase letters, hyphen, 4-digit year, hyphen, 4-digit ID."
+                   aria-required="true"><br>
+            <small>Format: CS-YYYY-XXXX (e.g., <code>CS-2024-0342</code>)</small>
+          </p>
+
+          <p>
+            <label for="dob">Date of Birth <abbr title="required field" aria-label="required">*</abbr></label><br>
+            <input type="date" id="dob" name="dob"
+                   min="1990-01-01"
+                   max="2010-12-31"
+                   required
+                   aria-required="true"
+                   autocomplete="bday">
+          </p>
+
+          <p>
+            <label for="gender">Gender Identity</label><br>
+            <select id="gender" name="gender" autocomplete="sex">
+              <option value="">-- Select --</option>
+              <optgroup label="Gender Identity">
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="non-binary">Non-binary</option>
+                <option value="genderfluid">Genderfluid</option>
+                <option value="prefer-not">Prefer not to say</option>
+              </optgroup>
+            </select>
+          </p>
+
+          <p>
+            <label for="nationality">Nationality</label><br>
+            <input type="text" id="nationality" name="nationality"
+                   list="nationalities-list"
+                   autocomplete="country-name"
+                   placeholder="Start typing or select…">
+            <datalist id="nationalities-list">
+              <option value="Indian">
+              <option value="American">
+              <option value="British">
+              <option value="Canadian">
+              <option value="Australian">
+              <option value="Chinese">
+              <option value="German">
+              <option value="French">
+              <option value="Japanese">
+              <option value="Brazilian">
+              <option value="South Korean">
+              <option value="Other">
+            </datalist>
+          </p>
+        </fieldset>
+
+        <!-- ==================== Contact Information ==================== -->
+        <fieldset>
+          <legend> Contact Information</legend>
+
+          <p>
+            <label for="email">University Email <abbr title="required field" aria-label="required">*</abbr></label><br>
+            <input type="email" id="email" name="email"
+                   placeholder="student@nie.ac.in"
+                   required
+                   autocomplete="email"
+                   aria-required="true">
+          </p>
+
+          <p>
+            <label for="personal-email">Personal Email (Optional)</label><br>
+            <input type="email" id="personal-email" name="personal_email"
+                   placeholder="you@example.com"
+                   autocomplete="email">
+          </p>
+
+          <p>
+            <label for="phone">Mobile Phone Number</label><br>
+            <input type="tel" id="phone" name="phone"
+                   placeholder="+91 98765 43210"
+                   pattern="[\+\d\s\-\(\)]{10,20}"
+                   title="Enter a valid phone number (10–20 characters, digits, +, -, spaces allowed)"
+                   autocomplete="tel">
+          </p>
+
+          <p>
+            <label for="website">Portfolio / Personal Website</label><br>
+            <input type="url" id="website" name="website"
+                   placeholder="https://yourportfolio.dev"
+                   autocomplete="url">
+          </p>
+
+          <p>
+            <label for="github-user">GitHub Username</label><br>
+            <input type="text" id="github-user" name="github_username"
+                   placeholder="username (no @)"
+                   pattern="[a-zA-Z0-9]([a-zA-Z0-9\-]{0,37}[a-zA-Z0-9])?"
+                   title="GitHub usernames: 1-39 characters, letters, numbers, and hyphens only. Cannot start or end with a hyphen.">
+          </p>
+        </fieldset>
+
+        <!-- ==================== Academic Information ==================== -->
+        <fieldset>
+          <legend> Academic Information</legend>
+
+          <p>
+            <label for="department">Department <abbr title="required field" aria-label="required">*</abbr></label><br>
+            <select id="department" name="department" required aria-required="true">
+              <option value="">-- Select Department --</option>
+              <optgroup label="Engineering">
+                <option value="cse" selected>Computer Science &amp; Engineering</option>
+                <option value="ece">Electronics &amp; Communication Engineering</option>
+                <option value="me">Mechanical Engineering</option>
+                <option value="ce">Civil Engineering</option>
+                <option value="eee">Electrical &amp; Electronics Engineering</option>
+              </optgroup>
+              <optgroup label="Science &amp; Mathematics">
+                <option value="physics">Physics</option>
+                <option value="maths">Mathematics</option>
+                <option value="chemistry">Chemistry</option>
+              </optgroup>
+              <optgroup label="Management &amp; Computing">
+                <option value="mba">Business Administration (<abbr title="Master of Business Administration">MBA</abbr>)</option>
+                <option value="mca">Computer Applications (<abbr title="Master of Computer Applications">MCA</abbr>)</option>
+              </optgroup>
+            </select>
+          </p>
+
+          <p>
+            <label for="year">Year of Study <abbr title="required field" aria-label="required">*</abbr></label><br>
+            <select id="year" name="year" required aria-required="true">
+              <option value="">-- Select Year --</option>
+              <option value="1">1<sup>st</sup> Year (Sem 1–2)</option>
+              <option value="2">2<sup>nd</sup> Year (Sem 3–4)</option>
+              <option value="3" selected>3<sup>rd</sup> Year (Sem 5–6)</option>
+              <option value="4">4<sup>th</sup> Year (Sem 7–8)</option>
+              <option value="pg1">Postgraduate Year 1</option>
+              <option value="pg2">Postgraduate Year 2</option>
+            </select>
+          </p>
+
+          <p>
+            <label for="enrollment-year">Enrollment Year <abbr title="required field" aria-label="required">*</abbr></label><br>
+            <input type="number" id="enrollment-year" name="enrollment_year"
+                   min="2015"
+                   max="2026"
+                   value="2024"
+                   required
+                   aria-required="true">
+          </p>
+
+          <p>
+            <label for="cgpa">Current <abbr title="Cumulative Grade Point Average">CGPA</abbr> (4.0 scale)</label><br>
+            <input type="number" id="cgpa" name="cgpa"
+                   min="0.00"
+                   max="4.00"
+                   step="0.01"
+                   placeholder="0.00 – 4.00"
+                   aria-describedby="cgpa-hint"><br>
+            <small id="cgpa-hint">On a 4.00 scale. Leave blank if not yet calculated.</small>
+          </p>
+
+          <p>
+            Specialization / Elective Track: <abbr title="required field" aria-label="required">*</abbr><br>
+            <label><input type="radio" name="specialization" value="ai-ml" required checked> Artificial Intelligence &amp; Machine Learning</label><br>
+            <label><input type="radio" name="specialization" value="systems"> Systems Programming &amp; Networks</label><br>
+            <label><input type="radio" name="specialization" value="security"> Cybersecurity &amp; Cryptography</label><br>
+            <label><input type="radio" name="specialization" value="webdev"> Web, Mobile &amp; Cloud Development</label><br>
+            <label><input type="radio" name="specialization" value="data"> Data Science &amp; Analytics</label><br>
+            <label><input type="radio" name="specialization" value="undecided"> Undecided / General</label>
+          </p>
+        </fieldset>
+
+        <!-- ==================== Skills & Technical Profile ==================== -->
+        <fieldset>
+          <legend> Technical Skills &amp; Profile</legend>
+
+          <p>
+            Programming Languages Known (select all that apply):<br>
+            <label><input type="checkbox" name="languages" value="python" checked> Python</label>
+            <label><input type="checkbox" name="languages" value="c-cpp" checked> C / C++</label>
+            <label><input type="checkbox" name="languages" value="java" checked> Java</label>
+            <label><input type="checkbox" name="languages" value="js"> JavaScript</label>
+            <label><input type="checkbox" name="languages" value="ts"> TypeScript</label>
+            <label><input type="checkbox" name="languages" value="rust"> Rust</label>
+            <label><input type="checkbox" name="languages" value="go"> Go</label>
+            <label><input type="checkbox" name="languages" value="sql" checked> SQL</label>
+            <label><input type="checkbox" name="languages" value="bash"> Bash</label>
+            <label><input type="checkbox" name="languages" value="haskell"> Haskell</label>
+            <label><input type="checkbox" name="languages" value="kotlin"> Kotlin</label>
+            <label><input type="checkbox" name="languages" value="other"> Other</label>
+          </p>
+
+          <p>
+            <label for="fav-lang">Favourite / Primary Language</label><br>
+            <input type="text" id="fav-lang" name="favourite_language"
+                   list="fav-lang-list"
+                   placeholder="Type or select…">
+            <datalist id="fav-lang-list">
+              <option value="Python">
+              <option value="C++">
+              <option value="Java">
+              <option value="Rust">
+              <option value="Go">
+              <option value="JavaScript">
+              <option value="TypeScript">
+              <option value="Haskell">
+              <option value="Kotlin">
+              <option value="Swift">
+            </datalist>
+          </p>
+
+          <p>
+            <label for="exp-level">
+              Self-Assessed Programming Experience Level:
+              <output for="exp-level" id="exp-output"></output>
+            </label><br>
+            <input type="range" id="exp-level" name="experience_level"
+                   min="1" max="10" value="7"
+                   aria-describedby="exp-hint"><br>
+            <small id="exp-hint">1 = Absolute Beginner &nbsp;|&nbsp; 5 = Intermediate &nbsp;|&nbsp; 10 = Professional Expert</small>
+          </p>
+
+          <p>
+            <label for="weekly-hours">Average Weekly Coding Hours</label><br>
+            <input type="number" id="weekly-hours" name="weekly_coding_hours"
+                   min="0" max="100" step="1"
+                   placeholder="Hours per week (e.g., 20)">
+          </p>
+
+          <p>
+            <label for="ide-pref">Preferred <abbr title="Integrated Development Environment">IDE</abbr> / Editor</label><br>
+            <input type="text" id="ide-pref" name="preferred_ide" list="ide-list">
+            <datalist id="ide-list">
+              <option value="VS Code">
+              <option value="Vim / NeoVim">
+              <option value="IntelliJ IDEA">
+              <option value="PyCharm">
+              <option value="Emacs">
+              <option value="CLion">
+              <option value="Sublime Text">
+            </datalist>
+          </p>
+        </fieldset>
+
+        <!-- ==================== Academic Feedback ==================== -->
+        <fieldset>
+          <legend> Academic Feedback</legend>
+
+          <p>
+            <label for="best-subject">Best Subject This Semester</label><br>
+            <select id="best-subject" name="best_subject">
+              <option value="">-- Select Subject --</option>
+              <option value="algorithms">Algorithms &amp; Data Structures</option>
+              <option value="os">Operating Systems</option>
+              <option value="dbms">Database Management Systems</option>
+              <option value="networks">Computer Networks</option>
+              <option value="ml">Machine Learning</option>
+              <option value="se">Software Engineering</option>
+              <option value="compilers">Compiler Design</option>
+            </select>
+          </p>
+
+          <p>
+            <label for="hardest-subject">Most Challenging Subject</label><br>
+            <select id="hardest-subject" name="hardest_subject">
+              <option value="">-- Select Subject --</option>
+              <option value="algorithms">Algorithms &amp; Data Structures</option>
+              <option value="os">Operating Systems</option>
+              <option value="dbms">Database Management Systems</option>
+              <option value="networks">Computer Networks</option>
+              <option value="ml">Machine Learning</option>
+              <option value="se">Software Engineering</option>
+              <option value="compilers">Compiler Design</option>
+            </select>
+          </p>
+
+          <p>
+            Rate your overall semester experience:<br>
+            <label><input type="radio" name="semester_rating" value="5">  Excellent &mdash; exceeded expectations</label><br>
+            <label><input type="radio" name="semester_rating" value="4">  Good &mdash; mostly satisfied</label><br>
+            <label><input type="radio" name="semester_rating" value="3" checked>  Average &mdash; met expectations</label><br>
+            <label><input type="radio" name="semester_rating" value="2">  Below Average &mdash; some issues</label><br>
+            <label><input type="radio" name="semester_rating" value="1">  Poor &mdash; significant problems</label>
+          </p>
+
+          <p>
+            <label for="feedback-text">Detailed Feedback &amp; Suggestions <abbr title="required field" aria-label="required">*</abbr></label><br>
+            <textarea id="feedback-text" name="feedback"
+                      rows="7"
+                      cols="60"
+                      required
+                      minlength="50"
+                      maxlength="3000"
+                      placeholder="Share your experience, suggestions for curriculum improvement, infrastructure feedback, or any other comments… (minimum 50 characters, maximum 3000)"
+                      aria-required="true"
+                      aria-describedby="feedback-hint"></textarea><br>
+            <small id="feedback-hint">Minimum 50 characters. Feedback is reviewed anonymously by the department.</small>
+          </p>
+
+          <p>
+            <label for="preferred-time">Best Time to Contact You</label><br>
+            <input type="time" id="preferred-time" name="preferred_contact_time"
+                   min="08:00" max="20:00"
+                   aria-describedby="time-hint"><br>
+            <small id="time-hint">Between 08:00 and 20:00 <abbr title="Indian Standard Time">IST</abbr>.</small>
+          </p>
+
+          <p>
+            <label for="upload-portfolio">Upload Portfolio or Supporting Document (Optional)</label><br>
+            <input type="file" id="upload-portfolio" name="portfolio_doc"
+                   accept=".pdf,.doc,.docx,.txt,.md"
+                   aria-describedby="upload-hint"><br>
+            <small id="upload-hint">Accepted: PDF, DOC, DOCX, TXT, MD. Maximum 5 MB.</small>
+          </p>
+        </fieldset>
+
+        <!-- ==================== Consent & Submission ==================== -->
+        <fieldset>
+          <legend> Consent &amp; Submission</legend>
+
+          <p>
+            <label>
+              <input type="checkbox" name="privacy_consent" required aria-required="true">
+              I have read and agree to the <a href="#faq">Privacy Policy</a>. I consent to the
+              processing of my data for legitimate academic and administrative purposes.
+              <abbr title="required field" aria-label="required">*</abbr>
+            </label>
+          </p>
+
+          <p>
+            <label>
+              <input type="checkbox" name="newsletter_opt_in">
+              Subscribe me to the CS Department newsletter, event announcements, and
+              internship opportunity alerts.
+            </label>
+          </p>
+
+          <p>
+            <label>
+              <input type="checkbox" name="research_consent">
+              I consent to anonymous use of my academic performance data for
+              departmental research and curriculum improvement studies.
+            </label>
+          </p>
+
+          <p>
+            <label>
+              <input type="checkbox" name="accuracy_declaration" required aria-required="true">
+              I declare that all information provided in this form is accurate and complete
+              to the best of my knowledge. <abbr title="required field" aria-label="required">*</abbr>
+            </label>
+          </p>
+
+          <p>
+            <button type="submit"> Submit Registration &amp; Feedback</button>
+            &nbsp;
+            <button type="reset"> Reset All Fields</button>
+          </p>
+
+          <p><small><abbr title="required field" aria-label="required">*</abbr> Denotes a required field.</small></p>
+        </fieldset>
+
+      </form>
+    </section>
+
+    <hr>
+
+    <!-- ================================================================
+         SECTION 7: FAQ (details/summary)
+         ================================================================ -->
+    <section id="faq" aria-labelledby="faq-heading">
+      <h2 id="faq-heading">Frequently Asked Questions</h2>
+      <p>
+        Interactive expandable sections implemented using native
+        <code>&lt;details&gt;</code> and <code>&lt;summary&gt;</code> elements.
+        Click any question to expand or collapse the answer &mdash; no JavaScript.
+      </p>
+
+      <article>
+        <h3>Academic &amp; Examination</h3>
+
+        <details>
+          <summary>How is the <abbr title="Cumulative Grade Point Average">CGPA</abbr> calculated?</summary>
+          <p>
+            The <abbr title="Cumulative Grade Point Average">CGPA</abbr> is a weighted average of all
+            completed <abbr title="Semester Grade Point Average">SGPA</abbr>s, where each semester&rsquo;s
+            contribution is weighted by its total credit count:
+          </p>
+          <p>
+            <var>CGPA</var> = &sum; (<var>SGPA<sub>i</sub></var> &times; <var>Credits<sub>i</sub></var>)
+            &divide; &sum; <var>Credits<sub>i</sub></var>
+          </p>
+          <p>
+            Grade points per letter grade: A+ = 4.0, A = 4.0, A&minus; = 3.7, B+ = 3.3,
+            B = 3.0, B&minus; = 2.7, C+ = 2.3, C = 2.0, D = 1.0, F = 0.0.
+            Grades below <strong>C (2.0)</strong> require a course retake.
+          </p>
+        </details>
+
+        <details>
+          <summary>What are the attendance requirements to sit the final exam?</summary>
+          <p>
+            A minimum of <strong>75% attendance</strong> per subject is mandatory.
+            Students between 65%&ndash;74% may apply for a medical/sports exemption,
+            subject to Dean&rsquo;s approval and supporting documentation.
+            Students below 65% are <em>automatically debarred</em> from the exam for that subject.
+          </p>
+          <p>
+            Attendance is recorded per lecture session. Late arrivals beyond 10 minutes
+            are marked absent for that session.
+          </p>
+        </details>
+
+        <details>
+          <summary>How do I apply for a re-evaluation of my answer scripts?</summary>
+          <ol>
+            <li>Log in to the student portal within <strong>10 working days</strong> of result publication.</li>
+            <li>Navigate to <em>Examinations</em> &rarr; <em>Re-evaluation Request</em>.</li>
+            <li>Select the subject(s) and pay the re-evaluation fee (&INR; 500 per subject).</li>
+            <li>Results are typically updated within <strong>3 weeks</strong>.</li>
+          </ol>
+          <p>
+            <strong>Note:</strong> Re-evaluation can result in a higher <em>or</em> lower mark.
+            The revised mark is final and binding.
+          </p>
+        </details>
+
+        <details>
+          <summary>What resources are available for exam preparation?</summary>
+          <ul>
+            <li>Digital library access (24/7) via the university portal &mdash; <abbr title="IEEE Xplore, ACM Digital Library">IEEE, ACM</abbr> journals included</li>
+            <li>Past exam papers (last 10 years) on the portal under <em>Academic Resources</em></li>
+            <li>Faculty office hours: Monday to Friday, 14:00&ndash;16:00</li>
+            <li>Peer tutoring via the <abbr title="Computer Science Student Society">CSSS</abbr></li>
+            <li>Online platforms: <a href="https://ocw.mit.edu" target="_blank"><abbr title="MIT OpenCourseWare">MIT OCW</abbr></a>, <a href="https://nptel.ac.in" target="_blank">NPTEL</a>, Coursera</li>
+          </ul>
+        </details>
+      </article>
+
+      <article>
+        <h3>Lab &amp; Technical Infrastructure</h3>
+
+        <details>
+          <summary>What software is available in the CS labs?</summary>
+          <p>All CS lab machines run <strong>Ubuntu 22.04 <abbr title="Long Term Support">LTS</abbr></strong>:</p>
+          <dl>
+            <dt>Languages &amp; Runtimes</dt>
+            <dd>Python 3.12, GCC 13, OpenJDK 21, Node.js 20, Rust 1.78, Go 1.22</dd>
+            <dt>IDEs &amp; Editors</dt>
+            <dd>VS Code, IntelliJ IDEA Community, Vim, Emacs, Nano</dd>
+            <dt>Dev Tools</dt>
+            <dd>Git 2.45, Docker 26, GDB, Valgrind, Make, CMake, gRPC</dd>
+            <dt>Databases</dt>
+            <dd>PostgreSQL 16, MySQL 8, SQLite 3, Redis 7</dd>
+            <dt><abbr title="Machine Learning">ML</abbr> Tools</dt>
+            <dd>Jupyter Notebook 7, TensorFlow 2.16, PyTorch 2.3, scikit-learn, NumPy, Pandas</dd>
+            <dt>Networking Tools</dt>
+            <dd>Wireshark, nmap, Cisco Packet Tracer 8</dd>
+          </dl>
+        </details>
+
+        <details>
+          <summary>How do I access lab resources remotely from home?</summary>
+          <p>Two methods are available:</p>
+          <ol>
+            <li>
+              <strong>Direct <abbr title="Secure Shell">SSH</abbr></strong> (on-campus network or VPN):
+              <pre><code>$ ssh student@nie.ac.in
+# Example:
+$ ssh student@nie.ac.in</code></pre>
+            </li>
+            <li>
+              <strong>University <abbr title="Virtual Private Network">VPN</abbr></strong>:
+              Download the Cisco AnyConnect client from the <abbr title="Information Technology">IT</abbr>
+              portal. Once connected, all university intranet resources including the Jupyter Hub,
+              digital library, and internal GitLab are accessible.
+            </li>
+          </ol>
+        </details>
+
+        <details>
+          <summary>How do I report a technical issue with the student portal?</summary>
+          <p>Contact the <abbr title="Information Technology">IT</abbr> Help Desk via:</p>
+          <dl>
+            <dt>Email</dt>
+            <dd><a href="mailto:itsupport@nie.ac.in">itsupport@nie.ac.in</a></dd>
+            <dt>In-portal Ticket</dt>
+            <dd>Use the <q>Report an Issue</q> button in the portal&rsquo;s top-right corner</dd>
+            <dt>Walk-in Support</dt>
+            <dd>
+              <address>
+                IT Help Desk, Ground Floor, Administrative Block<br>
+                Monday&ndash;Saturday, 09:00&ndash;17:00 <abbr title="Indian Standard Time">IST</abbr>
+              </address>
+            </dd>
+          </dl>
+          <p>Expected response time: <strong>1&ndash;2 business days</strong> for non-critical issues.</p>
+        </details>
+      </article>
+
+      <article>
+        <h3>Career &amp; Internships</h3>
+
+        <details>
+          <summary>When does the on-campus placement process begin?</summary>
+          <p>
+            On-campus recruitment (<abbr title="On-Campus Placement">OCP</abbr>) for final-year students
+            follows this timeline:
+          </p>
+          <table>
+            <caption>Placement Season 2026&ndash;27 Timeline</caption>
+            <thead>
+              <tr>
+                <th scope="col">Phase</th>
+                <th scope="col">Period</th>
+                <th scope="col">Activities</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Preparation</td>
+                <td><time datetime="2026-06">June 2026</time></td>
+                <td>Resume workshops, aptitude prep, mock interviews, LinkedIn optimization</td>
+              </tr>
+              <tr>
+                <td>Registration</td>
+                <td><time datetime="2026-07">July 2026</time></td>
+                <td>Company shortlisting, student registration, <abbr title="Non-Disclosure Agreement">NDA</abbr> signing</td>
+              </tr>
+              <tr>
+                <td>Phase 1 (Dream)</td>
+                <td><time datetime="2026-08">Aug</time>&ndash;<time datetime="2026-09">Sep 2026</time></td>
+                <td>Top-tier companies, competitive technical rounds, system design interviews</td>
+              </tr>
+              <tr>
+                <td>Phase 2 (Core)</td>
+                <td><time datetime="2026-10">Oct</time>&ndash;<time datetime="2026-11">Nov 2026</time></td>
+                <td>Mass recruitment, service companies, <abbr title="Product-Based Companies">product</abbr> hiring</td>
+              </tr>
+              <tr>
+                <td>Phase 3 (Backup)</td>
+                <td><time datetime="2026-12">Dec 2026</time></td>
+                <td>Remaining offers, off-campus referrals, startup openings</td>
+              </tr>
+            </tbody>
+          </table>
+        </details>
+
+        <details>
+          <summary>What should a CS student include in their technical resume?</summary>
+          <p><strong>Must-Haves:</strong></p>
+          <ul>
+            <li><strong>Projects</strong> with GitHub links, tech stack, and measurable outcomes</li>
+            <li><strong>Skills</strong> grouped: Languages &bull; Frameworks &bull; Tools &bull; Platforms</li>
+            <li><strong>Competitive programming</strong> handles and ratings (LeetCode, Codeforces)</li>
+            <li><strong>Internships / Work Experience</strong> with impact statements</li>
+            <li><strong>Publications / Research</strong> if applicable</li>
+            <li><strong>Certifications</strong> from recognized platforms</li>
+          </ul>
+          <p><strong>Avoid:</strong></p>
+          <ul>
+            <li>Objective statements and generic summaries</li>
+            <li>Listing MS Office / Google Docs as technical skills</li>
+            <li>Hobby lists unrelated to tech</li>
+            <li><q>References available upon request</q> &mdash; implied and wastes space</li>
+          </ul>
+        </details>
+      </article>
+    </section>
+
+    <hr>
+
+    <!-- ================================================================
+         SECTION 8: MULTIMEDIA
+         ================================================================ -->
+    <section id="media" aria-labelledby="media-heading">
+      <h2 id="media-heading">Multimedia Resources &amp; Demonstrations</h2>
+      <p>
+        Demonstrating native <abbr title="HyperText Markup Language 5">HTML5</abbr> multimedia:
+        <code>&lt;video&gt;</code>, <code>&lt;audio&gt;</code>, <code>&lt;figure&gt;</code>,
+        <code>&lt;figcaption&gt;</code>, <code>&lt;picture&gt;</code>, <code>&lt;source&gt;</code>,
+        and <code>&lt;track&gt;</code> for captions.
+      </p>
+
+      <!-- VIDEO -->
+      <article>
+        <h3> Video: Lecture &amp; Technical Demo</h3>
+
+        <figure>
+          <video controls
+                 width="640"
+                 height="360"
+                 preload="metadata"
+                 aria-label="Sample video demonstration — Big Buck Bunny excerpt">
+            <!-- Multiple source formats for broad browser support -->
+            <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+            <source src="https://www.w3schools.com/html/mov_bbb.ogg" type="video/ogg">
+            <!-- Fallback for unsupported browsers -->
+            <p>
+              Your browser does not support the HTML5 <code>&lt;video&gt;</code> element.
+              <a href="https://www.w3schools.com/html/mov_bbb.mp4">Download the video (MP4)</a> instead.
+            </p>
+          </video>
+          <figcaption>
+            <strong>Video 1</strong> &mdash; Browser HTML5 video support demonstration.
+            Test file courtesy of <cite>W3Schools HTML Reference</cite> (Big Buck Bunny clip).
+            Demonstrates the native <code>&lt;video&gt;</code> element with
+            multiple <code>&lt;source&gt;</code> fallbacks and no plugins required.
+          </figcaption>
+        </figure>
+
+        <figure>
+          <video controls
+                 width="640"
+                 height="360"
+                 preload="metadata"
+                 poster="https://via.placeholder.com/640x360/1a1a2e/e0e0e0?text=Distributed+Systems+Lecture">
+            <source src="distributed-systems-lecture.mp4" type="video/mp4">
+            <source src="distributed-systems-lecture.webm" type="video/webm">
+            <!-- Accessibility: captions track -->
+            <track kind="captions"
+                   src="captions-en.vtt"
+                   srclang="en"
+                   label="English (Auto-generated)"
+                   default>
+            <track kind="captions"
+                   src="captions-hi.vtt"
+                   srclang="hi"
+                   label="&#x0939;&#x093F;&#x0902;&#x0926;&#x0940; (Hindi)">
+            <track kind="chapters"
+                   src="chapters.vtt"
+                   srclang="en"
+                   label="Chapter Navigation">
+            <p>
+              Your browser does not support HTML5 video.
+              <a href="distributed-systems-lecture.mp4">Download lecture video (MP4)</a>.
+            </p>
+          </video>
+          <figcaption>
+            <strong>Video 2</strong> &mdash; <cite>Introduction to Distributed Systems</cite>.
+            Guest lecture by Prof. Faculty, Department of Computer Applications, NIE Mysore.
+            Recorded: <time datetime="2026-02-10">10 February 2026</time>. Duration: 47 min.
+            Subtitles available in English and Hindi via the <code>&lt;track&gt;</code> element.
+          </figcaption>
+        </figure>
+      </article>
+
+      <!-- AUDIO -->
+      <article>
+        <h3> Audio: Podcasts &amp; Lecture Recordings</h3>
+
+        <figure>
+          <audio controls preload="metadata" aria-label="Horse sound — HTML5 audio demo">
+            <source src="https://www.w3schools.com/html/horse.mp3" type="audio/mpeg">
+            <source src="https://www.w3schools.com/html/horse.ogg" type="audio/ogg">
+            <p>
+              Your browser does not support the HTML5 <code>&lt;audio&gt;</code> element.
+              <a href="https://www.w3schools.com/html/horse.mp3">Download audio (MP3)</a>.
+            </p>
+          </audio>
+          <figcaption>
+            <strong>Audio 1</strong> &mdash; Browser HTML5 audio support demonstration.
+            Test file courtesy of <cite>W3Schools HTML Reference</cite>.
+            Rendered natively without Flash or external plugins.
+          </figcaption>
+        </figure>
+
+        <figure>
+          <audio controls preload="metadata">
+            <source src="algorithms-lecture-audio.mp3" type="audio/mpeg">
+            <source src="algorithms-lecture-audio.ogg" type="audio/ogg">
+            <source src="algorithms-lecture-audio.wav" type="audio/wav">
+            <p>
+              Browser doesn&rsquo;t support HTML5 audio.
+              <a href="algorithms-lecture-audio.mp3">Download MP3</a>.
+            </p>
+          </audio>
+          <figcaption>
+            <strong>Audio 2</strong> &mdash; <cite>Dynamic Programming: Memoization vs. Tabulation</cite>.
+            Recorded by Dr. Vikram Gupta, Algorithms &amp; Complexity course.
+            Date: <time datetime="2026-03-05">5 March 2026</time>. Duration: ~32 minutes.
+          </figcaption>
+        </figure>
+      </article>
+
+      <!-- FIGURES & IMAGES with picture element -->
+      <article>
+        <h3> Technical Diagrams &amp; Figures</h3>
+
+        <figure>
+          <picture>
+            <!-- Responsive images: browser picks best source for viewport -->
+            <source media="(min-width: 1024px)"
+                    srcset="https://via.placeholder.com/900x450/2d3748/e2e8f0?text=Raft+Consensus+Algorithm+%E2%80%94+Full+Detail"
+                    width="900" height="450">
+            <source media="(min-width: 600px)"
+                    srcset="https://via.placeholder.com/640x320/2d3748/e2e8f0?text=Raft+Consensus+Algorithm+%E2%80%94+Medium"
+                    width="640" height="320">
+            <!-- Default/fallback image -->
+            <img src="https://via.placeholder.com/480x240/2d3748/e2e8f0?text=Raft+Consensus+Algorithm"
+                 alt="Raft consensus algorithm state machine diagram showing Follower, Candidate, and Leader states with transition arrows for election timeout, vote grant, and heartbeat events"
+                 width="480" height="240"
+                 loading="lazy">
+          </picture>
+          <figcaption>
+            <strong>Fig. 1</strong> &mdash; State machine for the
+            <abbr title="Raft Consensus Algorithm">Raft</abbr> protocol.
+            States: <em>Follower</em> &rarr; <em>Candidate</em> &rarr; <em>Leader</em>.
+            Adapted from <cite>In Search of an Understandable Consensus Algorithm</cite>
+            (Ongaro &amp; Ousterhout, <time datetime="2014">2014</time>).
+            Source code: <a href="https://github.com/Hrushikesh-Mysore/projects">github.com/Hrushikesh-Mysore/projects</a>
+          </figcaption>
+        </figure>
+
+        <figure>
+          <img src="https://via.placeholder.com/640x280/1e3a5f/c0d8f0?text=OSI+7-Layer+Network+Model"
+               alt="OSI model diagram with seven layers labeled from bottom to top: Physical, Data Link, Network, Transport, Session, Presentation, Application, with example protocols at each layer"
+               width="640" height="280"
+               loading="lazy">
+          <figcaption>
+            <strong>Fig. 2</strong> &mdash; The <abbr title="Open Systems Interconnection">OSI</abbr>
+            7-Layer Reference Model. An <abbr title="International Organization for Standardization">ISO</abbr>
+            standard (<cite>ISO/IEC 7498-1</cite>) framework for understanding network protocol layering.
+            Covered in the CN-3101 Computer Networks module.
+          </figcaption>
+        </figure>
+
+        <figure>
+          <img src="https://via.placeholder.com/640x200/2d3a4a/d4e8c0?text=Git+Flow+Branching+Strategy"
+               alt="Git Flow diagram showing main, develop, feature, release, and hotfix branches with their typical merge and branch-off points"
+               width="640" height="200"
+               loading="lazy">
+          <figcaption>
+            <strong>Fig. 3</strong> &mdash; Git Flow branching strategy used in the distributed
+            <abbr title="Key-Value">KV</abbr> store project.
+            Strategy adapted from <cite>A Successful Git Branching Model</cite>
+            (Vincent Driessen, <a href="https://nvie.com/posts/a-successful-git-branching-model/" target="_blank">nvie.com, <time datetime="2010">2010</time></a>).
+          </figcaption>
+        </figure>
+      </article>
+    </section>
+
+    <hr>
+
+    <!-- ================================================================
+         SECTION 9: SEMANTIC ELEMENTS SHOWCASE
+         ================================================================ -->
+    <section id="semantic" aria-labelledby="semantic-heading">
+      <h2 id="semantic-heading"> Semantic HTML Elements Showcase</h2>
+      <p>
+        A demonstration of HTML&rsquo;s full vocabulary of inline and block semantic elements,
+        each used in its correct context for meaning, accessibility, and document structure.
+      </p>
+
+      <article>
+        <h3>Inline Text Semantics</h3>
+        <table>
+          <caption>HTML5 Inline Semantic Elements Reference</caption>
+          <thead>
+            <tr>
+              <th scope="col">Element</th>
+              <th scope="col">Purpose</th>
+              <th scope="col">Live Example</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>&lt;strong&gt;</code></td>
+              <td>Strong importance, seriousness, or urgency</td>
+              <td><strong>Warning: this action is irreversible.</strong></td>
+            </tr>
+            <tr>
+              <td><code>&lt;em&gt;</code></td>
+              <td>Stressed emphasis that changes meaning</td>
+              <td>I said she <em>could</em> go (not that she <em>should</em>).</td>
+            </tr>
+            <tr>
+              <td><code>&lt;mark&gt;</code></td>
+              <td>Highlighted / relevant text in a specific context</td>
+              <td>Search result: The <mark>Raft algorithm</mark> achieves consensus.</td>
+            </tr>
+            <tr>
+              <td><code>&lt;del&gt;</code> &amp; <code>&lt;ins&gt;</code></td>
+              <td>Tracked document edits (deletions and insertions)</td>
+              <td>The deadline is <del datetime="2026-05-31">31 May</del> <ins datetime="2026-06-07">7 June</ins>.</td>
+            </tr>
+            <tr>
+              <td><code>&lt;abbr&gt;</code></td>
+              <td>Abbreviation with full form in <code>title</code></td>
+              <td><abbr title="Application Programming Interface">API</abbr>, <abbr title="Transmission Control Protocol / Internet Protocol">TCP/IP</abbr>, <abbr title="JavaScript Object Notation">JSON</abbr></td>
+            </tr>
+            <tr>
+              <td><code>&lt;dfn&gt;</code></td>
+              <td>Defining instance of a term</td>
+              <td>A <dfn id="dfn-mutex">mutex</dfn> is a mutual exclusion lock preventing concurrent access.</td>
+            </tr>
+            <tr>
+              <td><code>&lt;cite&gt;</code></td>
+              <td>Title of a creative work</td>
+              <td>Read <cite>The Pragmatic Programmer</cite> by Hunt &amp; Thomas.</td>
+            </tr>
+            <tr>
+              <td><code>&lt;q&gt;</code></td>
+              <td>Short inline quotation</td>
+              <td>Torvalds wrote: <q cite="https://lwn.net/Articles/193245/">Talk is cheap. Show me the code.</q></td>
+            </tr>
+            <tr>
+              <td><code>&lt;code&gt;</code></td>
+              <td>Inline code fragment</td>
+              <td>Call <code>git commit -m "message"</code> to save a snapshot.</td>
+            </tr>
+            <tr>
+              <td><code>&lt;kbd&gt;</code></td>
+              <td>Keyboard input</td>
+              <td>Press <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd> to open the command palette.</td>
+            </tr>
+            <tr>
+              <td><code>&lt;samp&gt;</code></td>
+              <td>Sample program output</td>
+              <td>Terminal showed: <samp>Segmentation fault (core dumped)</samp></td>
+            </tr>
+            <tr>
+              <td><code>&lt;var&gt;</code></td>
+              <td>Mathematical or programming variable</td>
+              <td>Time complexity is O(<var>n</var> log <var>n</var>) for merge sort.</td>
+            </tr>
+            <tr>
+              <td><code>&lt;sub&gt;</code> &amp; <code>&lt;sup&gt;</code></td>
+              <td>Subscript and superscript</td>
+              <td>H<sub>2</sub>O and E = mc<sup>2</sup></td>
+            </tr>
+            <tr>
+              <td><code>&lt;small&gt;</code></td>
+              <td>Fine print, side comments, legal text</td>
+              <td><small>&copy; 2026 Your Name. All rights reserved. Data subject to change.</small></td>
+            </tr>
+            <tr>
+              <td><code>&lt;time&gt;</code></td>
+              <td>Machine-readable date/time</td>
+              <td>Submitted on <time datetime="2026-06-02T09:30:00+05:30">2 June 2026 at 09:30 IST</time></td>
+            </tr>
+            <tr>
+              <td><code>&lt;bdo&gt;</code></td>
+              <td>Bidirectional text override</td>
+              <td>Reversed: <bdo dir="rtl">Hello World in reverse</bdo></td>
+            </tr>
+            <tr>
+              <td><code>&lt;ruby&gt;</code>, <code>&lt;rt&gt;</code>, <code>&lt;rp&gt;</code></td>
+              <td>Ruby annotation (East Asian text phonetics)</td>
+              <td><ruby>漢字<rp>(</rp><rt>Kanji</rt><rp>)</rp></ruby>, <ruby>東京<rp>(</rp><rt>Tōkyō</rt><rp>)</rp></ruby></td>
+            </tr>
+            <tr>
+              <td><code>&lt;wbr&gt;</code></td>
+              <td>Word break opportunity (long strings)</td>
+              <td><code>VeryLongFunctionNameThat<wbr>BreaksAtThisPoint<wbr>WhenNarrow</code></td>
+            </tr>
+            <tr>
+              <td><code>&lt;span&gt;</code></td>
+              <td>Generic inline container (no semantic meaning)</td>
+              <td>The <span title="Generic container, useful for scripting or styling hooks">span element</span> carries no implicit semantic role.</td>
+            </tr>
+          </tbody>
+        </table>
+      </article>
+
+      <article>
+        <h3>Block &amp; Structural Semantics</h3>
+
+        <h4>Preformatted Text with <code>&lt;pre&gt;</code></h4>
+        <pre>
+    *          ASCII art stars
+   ***         rendered using
+  *****        the &lt;pre&gt; element,
+ *******       which preserves all
+*********      whitespace exactly.
+        </pre>
+
+        <pre><code><!-- Python code block (pre + code combination) -->
+def fibonacci(n: int) -&gt; list[int]:
+    """Generate Fibonacci sequence up to n terms."""
+    sequence = [0, 1]
+    for i in range(2, n):
+        sequence.append(sequence[i-1] + sequence[i-2])
+    return sequence[:n]
+
+# Example usage:
+print(fibonacci(10))
+# Output: [0, 1, 1, 2, 3, 5, 8, 13, 21, 34]
+        </code></pre>
+
+        <h4>Blockquote with Attribution</h4>
+        <blockquote cite="https://www.cs.yale.edu/homes/perlis-alan/quotes.html">
+          <p>
+            &#8220;A language that doesn&rsquo;t affect the way you think about programming is not worth knowing.&#8221;
+          </p>
+          <footer>
+            &mdash; <cite>Alan J. Perlis</cite>,
+            <em>Epigrams on Programming</em> (<time datetime="1982">1982</time>).
+            Perlis was the first recipient of the <abbr title="Association for Computing Machinery">ACM</abbr>
+            Turing Award (<time datetime="1966">1966</time>).
+          </footer>
+        </blockquote>
+
+        <h4>Description List for Glossary</h4>
+        <dl>
+          <dt><dfn id="dfn-consensus">Consensus</dfn></dt>
+          <dd>A fundamental problem in distributed computing: getting all nodes in a cluster to agree on a single value, even in the presence of failures.</dd>
+
+          <dt><dfn id="dfn-idempotent">Idempotent</dfn></dt>
+          <dd>An operation that produces the same result regardless of how many times it is applied. <abbr title="HyperText Transfer Protocol">HTTP</abbr> GET and PUT are idempotent; POST is not.</dd>
+
+          <dt><dfn id="dfn-latency">Latency</dfn></dt>
+          <dd>The time delay between a cause and its effect; in computing, typically the time from sending a request to receiving the first byte of the response.</dd>
+
+          <dt><dfn id="dfn-throughput">Throughput</dfn></dt>
+          <dd>The amount of work performed (or data transferred) per unit time. Measured in operations per second (<abbr title="Operations Per Second">OPS</abbr>) or bits per second (bps).</dd>
+        </dl>
+
+        <h4>Ordered &amp; Unordered Lists with Nesting</h4>
+        <ol>
+          <li>
+            Understand the problem thoroughly
+            <ul>
+              <li>Read the specification multiple times</li>
+              <li>Identify edge cases and constraints</li>
+              <li>Draw diagrams if the problem is visual</li>
+            </ul>
+          </li>
+          <li>
+            Design before you code
+            <ul>
+              <li>Choose the appropriate data structure</li>
+              <li>Estimate time and space complexity</li>
+              <li>Consider the tradeoffs</li>
+            </ul>
+          </li>
+          <li>Implement incrementally with tests at each step</li>
+          <li>Profile before optimizing &mdash; <q>Premature optimization is the root of all evil</q> &mdash; <cite>Knuth</cite></li>
+          <li>Document for your future self and your teammates</li>
+        </ol>
+      </article>
+    </section>
+
+  </main>
+
+  <!-- ================================================================
+       SIDEBAR (ASIDE)
+       ================================================================ -->
+  <aside aria-label="Dashboard sidebar: quick reference and stats">
+    <h2> Quick Reference</h2>
+
+    <section>
+      <h3> Essential Developer Links</h3>
+      <nav aria-label="Developer resource links">
+        <ul>
+          <li><a href="https://developer.mozilla.org" target="_blank" rel="noopener"><abbr title="Mozilla Developer Network">MDN</abbr> Web Docs</a></li>
+          <li><a href="https://git-scm.com/docs" target="_blank" rel="noopener">Git Official Documentation</a></li>
+          <li><a href="https://linux.die.net/man/" target="_blank" rel="noopener">Linux <code>man</code> Pages</a></li>
+          <li><a href="https://stackoverflow.com" target="_blank" rel="noopener">Stack Overflow</a></li>
+          <li><a href="https://github.com" target="_blank" rel="noopener">GitHub</a></li>
+          <li><a href="https://leetcode.com" target="_blank" rel="noopener">LeetCode</a></li>
+          <li><a href="https://codeforces.com" target="_blank" rel="noopener">Codeforces</a></li>
+          <li><a href="https://arxiv.org/cs" target="_blank" rel="noopener">arXiv CS Papers</a></li>
+          <li><a href="https://roadmap.sh" target="_blank" rel="noopener">Developer Roadmaps</a></li>
+          <li><a href="https://docs.docker.com" target="_blank" rel="noopener">Docker Docs</a></li>
+        </ul>
+      </nav>
+    </section>
+
+    <section>
+      <h3> Upcoming Deadlines</h3>
+      <table>
+        <caption>June 2026 Deadlines</caption>
+        <thead>
+          <tr>
+            <th scope="col">Task</th>
+            <th scope="col">Due</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><abbr title="Operating Systems">OS</abbr> Assignment 3</td>
+            <td><time datetime="2026-06-10">Jun 10</time></td>
+          </tr>
+          <tr>
+            <td><abbr title="Machine Learning">ML</abbr> Project Demo</td>
+            <td><time datetime="2026-06-15">Jun 15</time></td>
+          </tr>
+          <tr>
+            <td><abbr title="Database Management Systems">DBMS</abbr> End-Term</td>
+            <td><time datetime="2026-06-18">Jun 18</time></td>
+          </tr>
+          <tr>
+            <td>Networks Lab Viva</td>
+            <td><time datetime="2026-06-20">Jun 20</time></td>
+          </tr>
+          <tr>
+            <td>Algorithms Final</td>
+            <td><time datetime="2026-06-23"><mark>Jun 23</mark></time></td>
+          </tr>
+          <tr>
+            <td><strong>Semester End Exams Start</strong></td>
+            <td><time datetime="2026-06-25"><strong><mark>Jun 25</mark></strong></time></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h3>&#x2328; Keyboard Shortcuts</h3>
+      <dl>
+        <dt><kbd>Ctrl</kbd>+<kbd>C</kbd></dt>
+        <dd>Copy selected text &bull; Interrupt running process in terminal (<abbr title="Signal Interrupt">SIGINT</abbr>)</dd>
+
+        <dt><kbd>Ctrl</kbd>+<kbd>Z</kbd></dt>
+        <dd>Undo in editors &bull; Suspend process in terminal (<abbr title="Signal Terminal Stop">SIGTSTP</abbr>)</dd>
+
+        <dt><kbd>Ctrl</kbd>+<kbd>D</kbd></dt>
+        <dd><abbr title="End Of File">EOF</abbr> character &bull; Logout / close terminal session</dd>
+
+        <dt><kbd>Tab</kbd></dt>
+        <dd>Autocomplete commands and file paths in shell</dd>
+
+        <dt><kbd>!!</kbd></dt>
+        <dd>Repeat and execute the last command</dd>
+
+        <dt><kbd>Ctrl</kbd>+<kbd>R</kbd></dt>
+        <dd>Reverse-search command history (type to filter)</dd>
+
+        <dt><kbd>Ctrl</kbd>+<kbd>L</kbd></dt>
+        <dd>Clear the terminal screen (equivalent to <kbd>clear</kbd>)</dd>
+
+        <dt><kbd>Ctrl</kbd>+<kbd>A</kbd> / <kbd>E</kbd></dt>
+        <dd>Jump to start / end of line in terminal</dd>
+
+        <dt><kbd>Alt</kbd>+<kbd>.</kbd></dt>
+        <dd>Insert last argument of previous command</dd>
+      </dl>
+    </section>
+
+    <section>
+      <h3> Live Semester Stats</h3>
+      <dl>
+        <dt>Credits Enrolled</dt>
+        <dd>24 credits this semester</dd>
+
+        <dt>Overall Attendance</dt>
+        <dd>
+          <meter value="89" min="0" max="100" low="75" high="85" optimum="95"
+                 aria-label="89% attendance">89%</meter>
+          89% &mdash; <em>(Minimum: 75%)</em>
+        </dd>
+
+        <dt>Assignments Submitted</dt>
+        <dd>
+          <progress value="18" max="21" aria-label="18 of 21 assignments done">18/21</progress>
+          18 of 21
+        </dd>
+
+        <dt>LeetCode Streak</dt>
+        <dd><mark> 47-Day Streak</mark></dd>
+
+        <dt>Open PRs on GitHub</dt>
+        <dd>3 pull requests awaiting review</dd>
+
+        <dt>Next Exam</dt>
+        <dd><time datetime="2026-06-18">18 June 2026</time> &mdash; DBMS End-Term</dd>
+      </dl>
+    </section>
+
+    <section>
+      <h3> Today&rsquo;s Motivation</h3>
+      <blockquote>
+        <p><q>First, solve the problem. Then, write the code.</q></p>
+        <footer>&mdash; <cite>John Johnson</cite></footer>
+      </blockquote>
+      <blockquote>
+        <p><q>Code is like humor. When you have to explain it, it&rsquo;s bad.</q></p>
+        <footer>&mdash; <cite>Cory House</cite></footer>
+      </blockquote>
+      <blockquote>
+        <p><q>The best error message is the one that never shows up.</q></p>
+        <footer>&mdash; <cite>Thomas Fuchs</cite></footer>
+      </blockquote>
+    </section>
+
+    <section>
+      <h3> Quick Command Cheatsheet</h3>
+      <dl>
+        <dt>View last 50 shell commands</dt>
+        <dd><code>history 50</code></dd>
+
+        <dt>Count lines in a file</dt>
+        <dd><code>wc -l filename.txt</code></dd>
+
+        <dt>Recursively count Python lines</dt>
+        <dd><code>find . -name "*.py" | xargs wc -l</code></dd>
+
+        <dt>Show listening ports</dt>
+        <dd><code>ss -tlnp</code></dd>
+
+        <dt>Check your public IP</dt>
+        <dd><code>curl ifconfig.me</code></dd>
+
+        <dt>Monitor a log in real-time</dt>
+        <dd><code>tail -f app.log</code></dd>
+
+        <dt>Git: undo last commit (keep changes)</dt>
+        <dd><code>git reset --soft HEAD~1</code></dd>
+
+        <dt>Git: view unstaged diff</dt>
+        <dd><code>git diff</code></dd>
+      </dl>
+    </section>
+  </aside>
+
+  <!-- ================================================================
+       FOOTER
+       ================================================================ -->
+  <footer role="contentinfo">
+    <section>
+      <h2>About This Project</h2>
+      <p>
+        The <strong>Developer Command Center</strong> is a pure <abbr title="HyperText Markup Language 5">HTML5</abbr>
+        project demonstrating the depth and capability of semantic web markup &mdash; built without
+        a single line of <abbr title="Cascading Style Sheets">CSS</abbr> or JavaScript.
+      </p>
+      <p>
+        It showcases: semantic document structure, accessibility-focused markup, native browser form
+        validation, multimedia embedding, interactive <code>&lt;details&gt;</code> elements,
+        data visualization with <code>&lt;progress&gt;</code> and <code>&lt;meter&gt;</code>,
+        complex table structures, and the full vocabulary of HTML5 inline semantics.
+      </p>
+      <p>
+        <small>
+          Built as a personal project &amp; coursework exercise,
+          Department of Computer Applications, <abbr title="National Institute of Engineering">NIE</abbr> Mysore.
+          All student data, projects, and metrics are fictional and for demonstration only.
+          Last updated: <time datetime="2026-06-02">2 June 2026</time>.
+          HTML version: <abbr title="HyperText Markup Language version 5">HTML5</abbr>
+          (W3C Recommendation).
+        </small>
+      </p>
+    </section>
+
+    <section>
+      <h2>Author &amp; Contact</h2>
+      <address>
+        <strong>Your Name</strong><br>
+        <abbr title="Bachelor of Computer Applications">BCA</abbr>, 1<sup>st</sup> Year (Semester 3)<br>
+        Department of Computer Applications<br>
+        The National Institute of Engineering, Mysore<br>
+        Karnataka, India &mdash; 570008<br>
+        Email: <a href="#">contact [at] nie.ac.in</a> <small>(placeholder)</small><br>
+        GitHub: github.com/Hrushikesh-Mysore
+      </address>
+    </section>
+
+    <nav aria-label="Footer site navigation">
+      <ul>
+        <li><a href="#profile">Profile</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#timetable">Timetable</a></li>
+        <li><a href="#commands">Commands</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#registration">Registration</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#media">Media</a></li>
+        <li><a href="#semantic">Semantics</a></li>
+        <li><a href="#">Back to Top</a></li>
+      </ul>
+    </nav>
+
+    <p>
+      <small>
+        &copy; <time datetime="2026">2026</time> Your Name &bull;
+        Open source under the <abbr title="Massachusetts Institute of Technology">MIT</abbr> License &bull;
+        Built using only <abbr title="HyperText Markup Language">HTML</abbr> &bull;
+        No frameworks &bull; No libraries &bull; No dependencies
+      </small>
+    </p>
+  </footer>
+
+</body>
+</html>
